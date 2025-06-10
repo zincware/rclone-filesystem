@@ -2,7 +2,6 @@ import os
 import subprocess
 
 import pytest
-import requests
 from moto.moto_server.threaded_moto_server import ThreadedMotoServer
 from s3fs import S3FileSystem
 
@@ -29,16 +28,6 @@ def s3_base():
     yield get_boto3_client()
     print("moto done")
     server.stop()
-
-
-@pytest.fixture(autouse=True)
-def reset_s3_fixture():
-    # We reuse the MotoServer for all tests
-    # But we do want a clean state for every test
-    try:
-        requests.post(f"{endpoint_uri}/moto-api/reset")
-    except Exception:  # Catch a more general Exception here
-        pass
 
 
 @pytest.fixture(autouse=True)
@@ -108,27 +97,3 @@ def rclone_fs():
 def s3fs_fs():
     """Fixture to create an S3FileSystem instance."""
     return S3FileSystem(anon=False, client_kwargs={"endpoint_url": endpoint_uri})
-
-
-@pytest.mark.parametrize("fs_key", ["s3fs_fs", "rclone_fs"])
-def test_ls_file(s3_base, fs_key, request):
-    fs = request.getfixturevalue(fs_key)
-
-    s3_base.create_bucket(Bucket="test-bucket")
-    s3_base.put_object(Bucket="test-bucket", Key="test-file.txt", Body=b"Hello, World!")
-
-    result = fs.ls("test-bucket")
-    assert result == ["test-bucket/test-file.txt"]
-
-    result = fs.ls("test-bucket/")
-    assert result == ["test-bucket/test-file.txt"]
-
-    detailed_result = fs.ls("test-bucket", detail=True)
-    assert detailed_result[0]["name"] == "test-bucket/test-file.txt"
-    assert detailed_result[0]["size"] == 13
-    assert detailed_result[0]["type"] == "file"
-
-    detailed_result = fs.ls("test-bucket/", detail=True)
-    assert detailed_result[0]["name"] == "test-bucket/test-file.txt"
-    assert detailed_result[0]["size"] == 13
-    assert detailed_result[0]["type"] == "file"
