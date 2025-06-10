@@ -60,9 +60,9 @@ class RCloneFileSystem(AbstractFileSystem):
                     yield f
         elif mode == "wb":
             with tempfile.TemporaryDirectory() as tmp_dir:
-                tmp_file = Path(tmp_dir) / "tmp_file"
+                tmp_file = Path(tmp_dir) / Path(path).name
                 with open(tmp_file, mode) as f:
                     yield f
-                rclone.copy(tmp_file.as_posix(), rclone_path)
+                rclone.copy(tmp_file.as_posix(), Path(rclone_path).parent.as_posix())
         else:
             raise ValueError(f"Unsupported mode: {mode}. Use 'rb' or 'wb'.")
