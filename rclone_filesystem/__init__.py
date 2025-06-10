@@ -4,6 +4,7 @@ from pathlib import Path
 
 from fsspec import AbstractFileSystem
 from rclone_python import rclone
+from rclone_python.utils import RcloneException
 
 
 class RCloneFileSystem(AbstractFileSystem):
@@ -53,6 +54,13 @@ class RCloneFileSystem(AbstractFileSystem):
         else:
             rclone_path = self._remote + ":" + path.lstrip("/")
         if mode == "rb":
+            # assert file exists by checking in rclone.list
+            try:
+                files = rclone.ls(rclone_path, **kwargs)
+            except RcloneException as e:
+                raise FileNotFoundError(f"File not found: {path}") from e
+            if not files:
+                raise FileNotFoundError(f"File not found: {path}")
             with tempfile.TemporaryDirectory() as tmp_dir:
                 rclone.copy(rclone_path, tmp_dir)
                 filename = next(Path(tmp_dir).glob("*"))
@@ -66,3 +74,23 @@ class RCloneFileSystem(AbstractFileSystem):
                 rclone.copy(tmp_file.as_posix(), Path(rclone_path).parent.as_posix())
         else:
             raise ValueError(f"Unsupported mode: {mode}. Use 'rb' or 'wb'.")
+
+    def cp_file(self, path1, path2, **kwargs):
+        """Copy a file from path1 to path2."""
+        if path1 == "/":
+            rclone_path1 = self._remote + ":"
+        else:
+            rclone_path1 = self._remote + ":" + path1.lstrip("/")
+        if path2 == "/":
+            rclone_path2 = self._remote + ":"
+        else:
+            rclone_path2 = self._remote + ":" + path2.lstrip("/")
+        rclone.copy(rclone_path1, rclone_path2)
+
+    def rm_file(self, path):
+        """Remove a file at the given path."""
+        if path == "/":
+            rclone_path = self._remote + ":"
+        else:
+            rclone_path = self._remote + ":" + path.lstrip("/")
+        rclone.delete(rclone_path)
