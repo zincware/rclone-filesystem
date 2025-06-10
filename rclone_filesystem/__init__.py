@@ -52,8 +52,17 @@ class RCloneFileSystem(AbstractFileSystem):
             rclone_path = self._remote + ":"
         else:
             rclone_path = self._remote + ":" + path.lstrip("/")
-        with tempfile.TemporaryDirectory() as tmp_dir:
-            rclone.copy(rclone_path, tmp_dir)
-            filename = next(Path(tmp_dir).glob("*"))
-            with open(filename, mode) as f:
-                yield f
+        if mode == "rb":
+            with tempfile.TemporaryDirectory() as tmp_dir:
+                rclone.copy(rclone_path, tmp_dir)
+                filename = next(Path(tmp_dir).glob("*"))
+                with open(filename, mode) as f:
+                    yield f
+        elif mode == "wb":
+            with tempfile.TemporaryDirectory() as tmp_dir:
+                tmp_file = Path(tmp_dir) / "tmp_file"
+                with open(tmp_file, mode) as f:
+                    yield f
+                rclone.copy(tmp_file.as_posix(), rclone_path)
+        else:
+            raise ValueError(f"Unsupported mode: {mode}. Use 'rb' or 'wb'.")
