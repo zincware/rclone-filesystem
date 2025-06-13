@@ -1,13 +1,22 @@
 [project]
 name = "rclone-filesystem"
 version = "0.1.0"
-description = "Add your description here"
+description = "A Python package for integrating rclone with fsspec"
+authors = [
+    { name = "Fabian Zills", email = "fzills@icp.uni-stuttgart.de" },
+]
+license = "Apache-2.0"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "fsspec>=2025.5.1",
     "rclone-python>=0.1.21",
 ]
+
+[project.urls]
+Repository = "https://github.com/zincware/rclone-filesystem"
+Releases = "https://github.com/zincware/rclone-filesystem/releases"
+Discord = "https://discord.gg/7ncfwhsnm4"
 
 [dependency-groups]
 dev = [
