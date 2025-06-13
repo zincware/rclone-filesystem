@@ -31,13 +31,13 @@ class RCloneFileSystem(AbstractFileSystem):
         if detail:
             return [
                 {
-                    "name": str(Path(path) / x["Path"]),
+                    "name": str(Path(path) / str(x["Path"])),
                     "size": x["Size"],
                     "type": "directory" if x["IsDir"] else "file",
                 }
                 for x in result
             ]
-        return [str(Path(path) / x["Path"]) for x in result]
+        return [str(Path(path) / str(x["Path"])) for x in result]
 
     @contextlib.contextmanager
     def open(
