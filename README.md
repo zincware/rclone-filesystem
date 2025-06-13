@@ -1,4 +1,4 @@
-# fsspec compliant rclone fileystem
+# RCloneFileSystem: fsspec-Compatible Filesystem via rclone
 
 This package provides a fsspec compliant filesystem interface for rclone.
 
