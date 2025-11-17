@@ -10,6 +10,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "fsspec>=2025.5.1",
+    "rclone-bin>=1.71.2",
     "rclone-python>=0.1.21",
 ]
 

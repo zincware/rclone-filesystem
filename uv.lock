@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.11"
 
 [[package]]
@@ -904,11 +904,23 @@ wheels = [
 ]
 
 [[package]]
+name = "rclone-bin"
+version = "1.71.2"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/34/82/6af5f6f2aab9dbadd43e9a00d63e8f8ddb0a2a3bb4fb0ef8f3d9f60ab685/rclone_bin-1.71.2-py3-none-macosx_10_9_x86_64.whl", hash = "sha256:d190ba54b198059b1758913dcbb2369f97f3e7d850ec15faea9ba46d2ec44d39", size = 26348979, upload-time = "2025-11-11T01:56:45.374Z" },
+    { url = "https://files.pythonhosted.org/packages/30/c6/0a26191877dc559e9a6c7765d789401963f0f70a50c3e44b9e2618550d99/rclone_bin-1.71.2-py3-none-macosx_11_0_arm64.whl", hash = "sha256:c7edc25668908414932b1720e75a163a88d4e341f431354e6ca1e813741db3c2", size = 24317286, upload-time = "2025-11-11T01:56:47.973Z" },
+    { url = "https://files.pythonhosted.org/packages/24/9c/8ec36ad92f527713dfe94ccfd517be81c71344d592e80b09c5d907510038/rclone_bin-1.71.2-py3-none-manylinux2014_aarch64.musllinux_1_1_aarch64.whl", hash = "sha256:bd891fa7c8658e5189b99b3752100a61d743ee310eacd1be20f0de8f0d3a15ea", size = 21591605, upload-time = "2025-11-11T01:56:50.848Z" },
+    { url = "https://files.pythonhosted.org/packages/06/9c/02be38942adaf6be1a018178abff4df270819db69a1121d1c4ecf78b45ab/rclone_bin-1.71.2-py3-none-manylinux2014_x86_64.musllinux_1_1_x86_64.whl", hash = "sha256:188588dc828d80dcf44f05576ed22ca8788518497f8fb2b0b471e8c4ccac0d16", size = 23284710, upload-time = "2025-11-11T01:56:53.269Z" },
+]
+
+[[package]]
 name = "rclone-filesystem"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "fsspec" },
+    { name = "rclone-bin" },
     { name = "rclone-python" },
 ]
 
@@ -925,6 +937,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "fsspec", specifier = ">=2025.5.1" },
+    { name = "rclone-bin", specifier = ">=1.71.2" },
     { name = "rclone-python", specifier = ">=0.1.21" },
 ]
 
