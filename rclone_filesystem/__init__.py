@@ -7,7 +7,9 @@ from pathlib import Path
 from fsspec import AbstractFileSystem
 from fsspec.utils import stringify_path
 from rclone_python import rclone
-from rclone_python.utils import RcloneException
+from rclone_python.utils import RcloneException, run_rclone_cmd
+
+from .settings import RCloneFileSystemSettings
 
 
 class RCloneFile(io.IOBase):
@@ -22,7 +24,7 @@ class RCloneFile(io.IOBase):
         self.fs = fs
         self.path = path
         self.mode = mode
-        self._tmp_dir = tempfile.mkdtemp()
+        self._tmp_dir = tempfile.mkdtemp(dir=fs._temp_dir)
         self._closed = False
 
         if "r" in mode:
@@ -104,9 +106,31 @@ class RCloneFileSystem(AbstractFileSystem):
 
     _INVALID_PATH_CHARS = frozenset(";|$`&(){}<>\\\n\r")
 
-    def __init__(self, remote: str):
-        super().__init__(remote=remote)
+    def __init__(
+        self,
+        remote: str,
+        temp_dir=None,
+        listings_expiry_time_secs=None,
+        use_listings_cache=True,
+        **kwargs,
+    ):
+        settings = RCloneFileSystemSettings()
+
+        resolved_temp_dir = temp_dir if temp_dir is not None else settings.temp_dir
+        resolved_expiry = (
+            listings_expiry_time_secs
+            if listings_expiry_time_secs is not None
+            else settings.listings_expiry_time_secs
+        )
+
+        super().__init__(
+            remote=remote,
+            use_listings_cache=use_listings_cache,
+            listings_expiry_time=resolved_expiry,
+            **kwargs,
+        )
         self._remote = remote
+        self._temp_dir = resolved_temp_dir
 
     @classmethod
     def _strip_protocol(cls, path):
