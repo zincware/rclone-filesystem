@@ -83,6 +83,7 @@ class RCloneFile(io.IOBase):
                         rclone_path,
                         show_progress=False,
                     )
+                    self.fs.invalidate_cache(self.path)
                 except RcloneException as e:
                     raise OSError(f"Failed to upload {self.path}") from e
             else:
@@ -363,6 +364,25 @@ class RCloneFileSystem(AbstractFileSystem):
         """Remove a file at the given path."""
         rclone_path = self._make_rclone_path(path)
         rclone.delete(rclone_path)
+        self.invalidate_cache(path)
+
+    def mkdir(self, path, create_parents=True, **kwargs):
+        """Create a directory on the remote."""
+        rclone_path = self._make_rclone_path(path)
+        rclone.mkdir(rclone_path)
+        self.invalidate_cache(path)
+
+    def rmdir(self, path):
+        """Remove a directory and all its contents."""
+        # Verify path exists before purging (rclone purge may silently succeed
+        # for nonexistent paths with some backends)
+        self.info(path)
+        rclone_path = self._make_rclone_path(path)
+        try:
+            rclone.purge(rclone_path)
+        except RcloneException as e:
+            raise FileNotFoundError(f"Directory not found: {path}") from e
+        self.invalidate_cache(path)
 
     def cat_file(self, path, start=None, end=None, **kwargs):
         """Retrieve file content as bytes without creating temp files.

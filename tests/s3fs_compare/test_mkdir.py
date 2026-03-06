@@ -6,7 +6,7 @@ from fsspec import AbstractFileSystem
 
 @pytest.mark.parametrize("fs_key", ["s3fs_fs", "rclone_fs"])
 def test_mkdir_creates_directory(s3_base, fs_key, request):
-    """Test that mkdir creates a directory visible in ls."""
+    """Test that mkdir creates a directory; writing a file inside it works."""
     fs: AbstractFileSystem = request.getfixturevalue(fs_key)
 
     bucket_name = uuid4().hex
@@ -15,7 +15,12 @@ def test_mkdir_creates_directory(s3_base, fs_key, request):
     dir_path = f"{bucket_name}/newdir"
     fs.mkdir(dir_path)
 
-    # Directory should appear in parent listing
+    # Write a file inside the new directory
+    file_path = f"{dir_path}/test.txt"
+    with fs.open(file_path, "wb") as f:
+        f.write(b"hello")
+
+    # Directory should now appear in parent listing (S3 dirs are implicit)
     entries = fs.ls(bucket_name)
     assert any("newdir" in e for e in entries)
 
