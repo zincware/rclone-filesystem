@@ -23,6 +23,7 @@ Any rclone-supported remote is usable as a first-class fsspec filesystem — `fs
 
 - [ ] Extract `_make_rclone_path()` helper to DRY up path construction across all methods
 - [ ] Fix `open()` to implement `_open()` returning a file-like object instead of context manager override (fsspec contract compliance)
+- [ ] Support text mode (`r`/`w`) in `open()` in addition to binary (`rb`/`wb`)
 - [ ] Use `rclone.cat()` for reads to avoid temp file round-trip where possible
 - [ ] Use `builtins.open` explicitly inside `open()` to avoid shadowing
 - [ ] Fix `cp_file()` to use `rclone.copyto()` instead of `rclone.copy()` for correct file-to-file semantics
@@ -52,7 +53,6 @@ Any rclone-supported remote is usable as a first-class fsspec filesystem — `fs
 - RC (remote control) daemon HTTP API — rclone-python doesn't support it; would require replacing the entire I/O layer. Future milestone.
 - Non-S3 backend tests — S3 is the primary testable backend via moto. Real-remote tests are integration-level.
 - Streaming/chunked transfer for large files — optimize later once basic operations are correct.
-- Text mode (`r`/`w`) support in `open()` — binary mode is the fsspec standard.
 
 ## Context
 
