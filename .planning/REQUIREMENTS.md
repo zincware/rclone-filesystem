@@ -9,10 +9,10 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### Infrastructure
 
-- [ ] **INFRA-01**: Extract `_make_rclone_path(path)` helper method to eliminate duplicated path construction across all methods
-- [ ] **INFRA-02**: Use `builtins.open` explicitly inside filesystem methods to avoid shadowing the built-in
-- [ ] **INFRA-03**: Validate paths contain no shell metacharacters before passing to rclone; raise `ValueError` for invalid paths
-- [ ] **INFRA-04**: Update `rclone-python` dependency to >=0.1.24
+- [x] **INFRA-01**: Extract `_make_rclone_path(path)` helper method to eliminate duplicated path construction across all methods
+- [x] **INFRA-02**: Use `builtins.open` explicitly inside filesystem methods to avoid shadowing the built-in
+- [x] **INFRA-03**: Validate paths contain no shell metacharacters before passing to rclone; raise `ValueError` for invalid paths
+- [x] **INFRA-04**: Update `rclone-python` dependency to >=0.1.24
 
 ### Contract Compliance
 
@@ -47,7 +47,7 @@ Requirements for this milestone. Each maps to roadmap phases.
 - [ ] **TEST-01**: Add tests for `cp_file` verifying correct file-to-file copy semantics
 - [ ] **TEST-02**: Un-comment and fix `test_ls_not_found` to verify `FileNotFoundError` is raised
 - [ ] **TEST-03**: Add tests for write mode edge cases (nested paths, overwrite existing, empty files)
-- [ ] **TEST-04**: Add path edge case tests (double slash, trailing slash, empty string, root path)
+- [x] **TEST-04**: Add path edge case tests (double slash, trailing slash, empty string, root path)
 - [ ] **TEST-05**: Add tests for error handling (bad remote, non-existent paths for put/get/info)
 - [x] **TEST-06**: Fix hardcoded port 5555 in test fixtures to use dynamic port assignment
 - [x] **TEST-07**: Use `monkeypatch` for AWS env vars in test fixtures instead of direct `os.environ` mutation
@@ -96,10 +96,10 @@ Deferred to future milestone. Tracked but not in current roadmap.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INFRA-01 | Phase 1 | Pending |
-| INFRA-02 | Phase 1 | Pending |
-| INFRA-03 | Phase 1 | Pending |
-| INFRA-04 | Phase 1 | Pending |
+| INFRA-01 | Phase 1 | Complete |
+| INFRA-02 | Phase 1 | Complete |
+| INFRA-03 | Phase 1 | Complete |
+| INFRA-04 | Phase 1 | Complete |
 | CONT-01 | Phase 2 | Pending |
 | CONT-02 | Phase 2 | Pending |
 | CONT-03 | Phase 1 | Pending |
@@ -122,7 +122,7 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | TEST-01 | Phase 4 | Pending |
 | TEST-02 | Phase 3 | Pending |
 | TEST-03 | Phase 2 | Pending |
-| TEST-04 | Phase 1 | Pending |
+| TEST-04 | Phase 1 | Complete |
 | TEST-05 | Phase 4 | Pending |
 | TEST-06 | Phase 1 | Complete |
 | TEST-07 | Phase 1 | Complete |
