@@ -46,12 +46,12 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 - [ ] **TEST-01**: Add tests for `cp_file` verifying correct file-to-file copy semantics
 - [ ] **TEST-02**: Un-comment and fix `test_ls_not_found` to verify `FileNotFoundError` is raised
-- [ ] **TEST-03**: Add tests for write mode edge cases (nested paths, overwrite existing, empty files)
+- [x] **TEST-03**: Add tests for write mode edge cases (nested paths, overwrite existing, empty files)
 - [x] **TEST-04**: Add path edge case tests (double slash, trailing slash, empty string, root path)
 - [ ] **TEST-05**: Add tests for error handling (bad remote, non-existent paths for put/get/info)
 - [x] **TEST-06**: Fix hardcoded port 5555 in test fixtures to use dynamic port assignment
 - [x] **TEST-07**: Use `monkeypatch` for AWS env vars in test fixtures instead of direct `os.environ` mutation
-- [ ] **TEST-08**: Add tests for text mode (`r`/`w`) open operations
+- [x] **TEST-08**: Add tests for text mode (`r`/`w`) open operations
 - [x] **TEST-09**: Add tests for protocol registration (`fsspec.filesystem("rclone")`)
 - [ ] **TEST-10**: Add tests for `_put_file` and `_get_file` direct transfer operations
 
@@ -121,12 +121,12 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | PERF-03 | Phase 5 | Pending |
 | TEST-01 | Phase 4 | Pending |
 | TEST-02 | Phase 3 | Pending |
-| TEST-03 | Phase 2 | Pending |
+| TEST-03 | Phase 2 | Complete |
 | TEST-04 | Phase 1 | Complete |
 | TEST-05 | Phase 4 | Pending |
 | TEST-06 | Phase 1 | Complete |
 | TEST-07 | Phase 1 | Complete |
-| TEST-08 | Phase 2 | Pending |
+| TEST-08 | Phase 2 | Complete |
 | TEST-09 | Phase 1 | Complete |
 | TEST-10 | Phase 4 | Pending |
 | CISC-01 | Phase 5 | Pending |
