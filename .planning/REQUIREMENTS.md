@@ -22,13 +22,13 @@ Requirements for this milestone. Each maps to roadmap phases.
 - [x] **CONT-04**: Implement `_strip_protocol()` classmethod to parse `rclone://remote:path` URLs
 - [x] **CONT-05**: Implement `_get_kwargs_from_urls()` to extract `remote` kwarg from URLs
 - [x] **CONT-06**: Register filesystem via `[project.entry-points."fsspec.specs"]` in pyproject.toml so `fsspec.filesystem("rclone")` works
-- [ ] **CONT-07**: `ls()` raises `FileNotFoundError` for non-existent paths instead of returning empty list
+- [x] **CONT-07**: `ls()` raises `FileNotFoundError` for non-existent paths instead of returning empty list
 
 ### Core Operations
 
 - [ ] **CORE-01**: Implement `_put_file()` using `rclone.copyto()` for efficient direct local-to-remote upload
 - [ ] **CORE-02**: Implement `_get_file()` using `rclone.copy()` for efficient direct remote-to-local download
-- [ ] **CORE-03**: Implement `info()` for efficient single-path metadata retrieval (name, size, type)
+- [x] **CORE-03**: Implement `info()` for efficient single-path metadata retrieval (name, size, type)
 - [ ] **CORE-04**: Implement `mkdir()` using `rclone.mkdir()`
 - [ ] **CORE-05**: Implement `rmdir()` using `rclone.purge()`
 - [ ] **CORE-06**: Fix `cp_file()` to use `rclone.copyto()` instead of `rclone.copy()` for correct file-to-file semantics
@@ -45,7 +45,7 @@ Requirements for this milestone. Each maps to roadmap phases.
 ### Testing
 
 - [ ] **TEST-01**: Add tests for `cp_file` verifying correct file-to-file copy semantics
-- [ ] **TEST-02**: Un-comment and fix `test_ls_not_found` to verify `FileNotFoundError` is raised
+- [x] **TEST-02**: Un-comment and fix `test_ls_not_found` to verify `FileNotFoundError` is raised
 - [x] **TEST-03**: Add tests for write mode edge cases (nested paths, overwrite existing, empty files)
 - [x] **TEST-04**: Add path edge case tests (double slash, trailing slash, empty string, root path)
 - [ ] **TEST-05**: Add tests for error handling (bad remote, non-existent paths for put/get/info)
@@ -106,10 +106,10 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | CONT-04 | Phase 1 | Complete |
 | CONT-05 | Phase 1 | Complete |
 | CONT-06 | Phase 1 | Complete |
-| CONT-07 | Phase 3 | Pending |
+| CONT-07 | Phase 3 | Complete |
 | CORE-01 | Phase 4 | Pending |
 | CORE-02 | Phase 4 | Pending |
-| CORE-03 | Phase 3 | Pending |
+| CORE-03 | Phase 3 | Complete |
 | CORE-04 | Phase 4 | Pending |
 | CORE-05 | Phase 4 | Pending |
 | CORE-06 | Phase 4 | Pending |
@@ -120,7 +120,7 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | PERF-02 | Phase 3 | Complete |
 | PERF-03 | Phase 5 | Pending |
 | TEST-01 | Phase 4 | Pending |
-| TEST-02 | Phase 3 | Pending |
+| TEST-02 | Phase 3 | Complete |
 | TEST-03 | Phase 2 | Complete |
 | TEST-04 | Phase 1 | Complete |
 | TEST-05 | Phase 4 | Pending |
