@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Path Infrastructure and Protocol Registration** - Centralized path handling, protocol attributes, entry_points, dependency bump, test fixture hardening (completed 2026-03-06)
 - [ ] **Phase 2: File I/O Contract Fix** - Proper `_open()` implementation replacing `open()` override, text mode support
 - [ ] **Phase 3: Listing, Metadata, and Caching** - `ls()` with FileNotFoundError, `info()`, DirCache integration, `cat_file()` optimization
-- [ ] **Phase 4: Transfer Operations and Mutations** - `_put_file`, `_get_file`, `cp_file` fix, `mkdir`, `rmdir`, cache invalidation
+- [ ] **Phase 4: Transfer Operations and Mutations** - `put_file`, `get_file`, `cp_file` fix, `mkdir`, `rmdir`, cache invalidation
 - [ ] **Phase 5: Polish and Ecosystem Readiness** - Progress bars, CI rclone pinning
 
 ## Phase Details
@@ -77,11 +77,11 @@ Plans:
   3. `fs.cp_file("remote/a.txt", "remote/b.txt")` creates `b.txt` as a copy of `a.txt` (not `b.txt/a.txt`)
   4. `fs.mkdir("remote/newdir")` creates the directory and `fs.rmdir("remote/newdir")` removes it
   5. After any mutation operation (put, cp, rm, mkdir, rmdir), the DirCache for affected paths is invalidated
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 04-01: TBD
-- [ ] 04-02: TBD
+- [ ] 04-01-PLAN.md -- Transfer methods (put_file, get_file, mkdir, rmdir), cp_file/rm_file fix, cache invalidation wiring, cp/mkdir/error tests
+- [ ] 04-02-PLAN.md -- Enhanced put/get tests, cache invalidation mutation tests
 
 ### Phase 5: Polish and Ecosystem Readiness
 **Goal**: Transfer operations show progress feedback and CI uses a pinned rclone version for reproducible builds
@@ -105,5 +105,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 1. Path Infrastructure and Protocol Registration | 3/3 | Complete   | 2026-03-06 |
 | 2. File I/O Contract Fix | 1/2 | Executing | - |
 | 3. Listing, Metadata, and Caching | 0/2 | Not started | - |
-| 4. Transfer Operations and Mutations | 0/? | Not started | - |
+| 4. Transfer Operations and Mutations | 0/2 | Not started | - |
 | 5. Polish and Ecosystem Readiness | 0/? | Not started | - |
