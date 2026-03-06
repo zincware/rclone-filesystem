@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.11"
 
 [[package]]
@@ -925,7 +925,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "fsspec", specifier = ">=2025.5.1" },
-    { name = "rclone-python", specifier = ">=0.1.21" },
+    { name = "rclone-python", specifier = ">=0.1.24" },
 ]
 
 [package.metadata.requires-dev]
@@ -940,14 +940,14 @@ dev = [
 
 [[package]]
 name = "rclone-python"
-version = "0.1.21"
+version = "0.1.24"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "rich" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e3/06/ad0ebd8d7a767934a797daa6950bc91f072603a73bb529556d18d17e3c54/rclone_python-0.1.21.tar.gz", hash = "sha256:c19c9496da38254879b505e58ef832a556b691bd08a897ee27f4e885dac25970", size = 21071, upload-time = "2025-01-28T13:40:51.837Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c1/40/64fb568fa75baf70a4a9a8ee8d3d49631366784d152a9e3d7cefebb009c8/rclone_python-0.1.24.tar.gz", hash = "sha256:d6d606112121417ed6427eaf489c02ea80240d9cfda8979e37a6ffab5183c012", size = 24150, upload-time = "2026-01-26T15:35:35.719Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ef/c2/a8830c22dd3f86a9b1a39fc3e4bc63fa62e98401ffaa25bb762669336292/rclone_python-0.1.21-py3-none-any.whl", hash = "sha256:22860edcd0484bd375b34b4a821f9e9837588f8e277cc1b67326dd950b1a7144", size = 14925, upload-time = "2025-01-28T13:40:50.174Z" },
+    { url = "https://files.pythonhosted.org/packages/69/6f/a193a9ddf3fadd006cd4afa9e2a606fc17d2e9a107927652a8abaac9f69e/rclone_python-0.1.24-py3-none-any.whl", hash = "sha256:e229629239fef02b658644057b5f98daebc36460f1abc78f9b076af107b55ba6", size = 15819, upload-time = "2026-01-26T15:35:34.573Z" },
 ]
 
 [[package]]
