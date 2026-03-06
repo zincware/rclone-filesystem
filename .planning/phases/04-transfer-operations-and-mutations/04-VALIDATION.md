@@ -2,8 +2,8 @@
 phase: 4
 slug: transfer-operations-and-mutations
 status: draft
-nyquist_compliant: false
-wave_0_complete: false
+nyquist_compliant: true
+wave_0_complete: true
 created: 2026-03-06
 ---
 
@@ -38,15 +38,11 @@ created: 2026-03-06
 
 | Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|-----------|-------------------|-------------|--------|
-| 04-01-01 | 01 | 0 | TEST-01 | integration | `uv run pytest tests/s3fs_compare/test_cp.py -x` | No - W0 | pending |
-| 04-01-02 | 01 | 0 | CORE-04, CORE-05 | integration | `uv run pytest tests/s3fs_compare/test_mkdir.py -x` | No - W0 | pending |
-| 04-01-03 | 01 | 0 | TEST-05 | integration | `uv run pytest tests/s3fs_compare/test_errors.py -x` | No - W0 | pending |
-| 04-01-04 | 01 | 0 | CORE-09 | integration | `uv run pytest tests/s3fs_compare/test_cache.py -x` | Yes - enhance | pending |
-| 04-02-01 | 02 | 1 | CORE-01, TEST-10 | integration | `uv run pytest tests/s3fs_compare/test_put.py -x` | Yes - enhance | pending |
-| 04-02-02 | 02 | 1 | CORE-02, TEST-10 | integration | `uv run pytest tests/s3fs_compare/test_get.py -x` | Yes - enhance | pending |
-| 04-02-03 | 02 | 1 | CORE-06, TEST-01 | integration | `uv run pytest tests/s3fs_compare/test_cp.py -x` | No - W0 | pending |
-| 04-02-04 | 02 | 1 | CORE-04, CORE-05 | integration | `uv run pytest tests/s3fs_compare/test_mkdir.py -x` | No - W0 | pending |
-| 04-02-05 | 02 | 1 | CORE-09 | integration | `uv run pytest tests/s3fs_compare/test_cache.py -x` | Yes - enhance | pending |
+| 04-01-01 | 01 | 1 | TEST-01, TEST-05, CORE-06, CORE-04, CORE-05 | integration | `uv run pytest tests/s3fs_compare/test_cp.py tests/s3fs_compare/test_mkdir.py tests/s3fs_compare/test_errors.py -x -q 2>&1 \| head -5` | Created by task | pending |
+| 04-01-02 | 01 | 1 | CORE-01, CORE-02, CORE-06 | integration | `uv run pytest tests/s3fs_compare/test_cp.py tests/s3fs_compare/test_errors.py tests/s3fs_compare/test_put.py tests/s3fs_compare/test_get.py -x -q` | Yes (from Task 1) | pending |
+| 04-01-03 | 01 | 1 | CORE-04, CORE-05, CORE-09 | integration | `uv run pytest tests/s3fs_compare/test_mkdir.py tests/s3fs_compare/test_errors.py tests/s3fs_compare/ -x -q` | Yes (from Task 1) | pending |
+| 04-02-01 | 02 | 2 | TEST-10 | integration | `uv run pytest tests/s3fs_compare/test_put.py tests/s3fs_compare/test_get.py -x -q` | Yes - enhance | pending |
+| 04-02-02 | 02 | 2 | CORE-09 | integration | `uv run pytest tests/s3fs_compare/test_cache.py -x -q` | Yes - enhance | pending |
 
 *Status: pending / green / red / flaky*
 
@@ -54,11 +50,13 @@ created: 2026-03-06
 
 ## Wave 0 Requirements
 
-- [ ] `tests/s3fs_compare/test_cp.py` — stubs for CORE-06, TEST-01 (cp_file file-to-file semantics)
-- [ ] `tests/s3fs_compare/test_mkdir.py` — stubs for CORE-04, CORE-05 (mkdir/rmdir operations)
-- [ ] `tests/s3fs_compare/test_errors.py` — stubs for TEST-05 (error handling for missing files)
-- [ ] Enhancement: `test_put.py` / `test_get.py` — add FNFE tests, cache invalidation checks
-- [ ] Enhancement: `test_cache.py` — add mutation invalidation tests (rm, cp, put triggers cache clear)
+No separate Wave 0 plan needed. Plan 01 Task 1 creates all new test files (test_cp.py, test_mkdir.py, test_errors.py) as the first task in Wave 1, establishing the RED phase before implementation in Tasks 2-3. Existing test files (test_put.py, test_get.py, test_cache.py) are enhanced in Plan 02 Wave 2.
+
+- [x] `tests/s3fs_compare/test_cp.py` — created by Plan 01 Task 1 (RED phase)
+- [x] `tests/s3fs_compare/test_mkdir.py` — created by Plan 01 Task 1 (RED phase)
+- [x] `tests/s3fs_compare/test_errors.py` — created by Plan 01 Task 1 (RED phase)
+- [x] Enhancement: `test_put.py` / `test_get.py` — enhanced by Plan 02 Task 1
+- [x] Enhancement: `test_cache.py` — enhanced by Plan 02 Task 2
 
 ---
 
@@ -70,11 +68,11 @@ All phase behaviors have automated verification.
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or Wave 0 dependencies
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] Wave 0 covers all MISSING references
-- [ ] No watch-mode flags
-- [ ] Feedback latency < 15s
-- [ ] `nyquist_compliant: true` set in frontmatter
+- [x] All tasks have `<automated>` verify commands
+- [x] Sampling continuity: no 3 consecutive tasks without automated verify
+- [x] Wave 0 covered by Plan 01 Task 1 (test creation before implementation)
+- [x] No watch-mode flags
+- [x] Feedback latency < 15s
+- [x] `nyquist_compliant: true` set in frontmatter
 
-**Approval:** pending
+**Approval:** approved
