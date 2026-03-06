@@ -229,3 +229,43 @@ class RCloneFileSystem(AbstractFileSystem):
         """Remove a file at the given path."""
         rclone_path = self._make_rclone_path(path)
         rclone.delete(rclone_path)
+
+    def cat_file(self, path, start=None, end=None, **kwargs):
+        """Retrieve file content as bytes without creating temp files.
+
+        Uses rclone cat command directly for efficient content retrieval.
+        Does not support byte ranges (start/end ignored).
+        """
+        rclone_path = self._make_rclone_path(path)
+        try:
+            stdout, stderr = run_rclone_cmd(
+                f'cat "{rclone_path}"', encoding=None
+            )
+        except RcloneException as e:
+            raise FileNotFoundError(f"File not found: {path}") from e
+        # rclone cat returns empty stdout with error on stderr for missing files
+        # but does not always raise RcloneException
+        if not stdout and stderr:
+            raise FileNotFoundError(f"File not found: {path}")
+        return stdout
+
+    def invalidate_cache(self, path=None):
+        """Clear cached directory listings.
+
+        Parameters
+        ----------
+        path : str, optional
+            If provided, clears cache for this path and all parent paths.
+            If None, clears the entire cache.
+        """
+        if path is None:
+            self.dircache.clear()
+        else:
+            path = self._strip_protocol(path).rstrip("/")
+            self.dircache.pop(path, None)
+            parent = self._parent(path)
+            while parent and parent != path:
+                self.dircache.pop(parent, None)
+                path = parent
+                parent = self._parent(path)
+        super().invalidate_cache(path)
