@@ -238,12 +238,12 @@ class RCloneFileSystem(AbstractFileSystem):
                 }
                 for x in result
             ]
-            # Populate DirCache
-            self.dircache[path] = entries
-
-            # FNFE heuristic: empty result -> check parent
+            # FNFE heuristic: empty result -> check parent before caching
             if not entries:
                 self._raise_if_not_found(path)
+
+            # Populate DirCache (only after FNFE check passes)
+            self.dircache[path] = entries
 
         if detail:
             return entries
