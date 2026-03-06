@@ -88,12 +88,13 @@ Plans:
 **Depends on**: Phase 4
 **Requirements**: PERF-03, CISC-01
 **Success Criteria** (what must be TRUE):
-  1. `fs.put("large.bin", "remote/large.bin", pbar=True)` displays a rich progress bar during upload
+  1. `fs.put("large.bin", "remote/large.bin", show_progress=True)` displays a rich progress bar during upload
   2. CI workflow installs a specific pinned rclone version instead of curl-pipe-bash latest
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 05-01: TBD
+- [ ] 05-01-PLAN.md -- Progress bar support: show_progress/pbar wiring through all transfer methods via pydantic-settings
+- [ ] 05-02-PLAN.md -- CI rclone pinning: rclone-bin dev dependency, optional [rclone] extra, remove curl install
 
 ## Progress
 
@@ -106,4 +107,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 2. File I/O Contract Fix | 1/2 | Executing | - |
 | 3. Listing, Metadata, and Caching | 0/2 | Not started | - |
 | 4. Transfer Operations and Mutations | 0/2 | Not started | - |
-| 5. Polish and Ecosystem Readiness | 0/? | Not started | - |
+| 5. Polish and Ecosystem Readiness | 0/2 | Not started | - |
