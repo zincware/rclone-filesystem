@@ -61,11 +61,11 @@ Plans:
   2. `fs.info("path/file.txt")` returns a dict with name, size, and type without listing the entire parent directory
   3. Calling `fs.ls("path/")` twice in succession hits the DirCache on the second call (no second rclone subprocess)
   4. `fs.cat_file("path/file.txt")` retrieves content via `rclone.cat()` without creating a temp file
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 03-01: TBD
-- [ ] 03-02: TBD
+- [ ] 03-01-PLAN.md -- Configuration layer (pydantic-settings), cat_file(), invalidate_cache()
+- [ ] 03-02-PLAN.md -- ls() DirCache + FNFE rewrite, info() implementation, listing/cache/info tests
 
 ### Phase 4: Transfer Operations and Mutations
 **Goal**: Users can efficiently upload, download, copy, and manage directories with correct file-to-file semantics and automatic cache invalidation
@@ -104,6 +104,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 |-------|----------------|--------|-----------|
 | 1. Path Infrastructure and Protocol Registration | 3/3 | Complete   | 2026-03-06 |
 | 2. File I/O Contract Fix | 1/2 | Executing | - |
-| 3. Listing, Metadata, and Caching | 0/? | Not started | - |
+| 3. Listing, Metadata, and Caching | 0/2 | Not started | - |
 | 4. Transfer Operations and Mutations | 0/? | Not started | - |
 | 5. Polish and Ecosystem Readiness | 0/? | Not started | - |
