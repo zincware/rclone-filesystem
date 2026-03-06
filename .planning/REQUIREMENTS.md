@@ -53,7 +53,7 @@ Requirements for this milestone. Each maps to roadmap phases.
 - [x] **TEST-07**: Use `monkeypatch` for AWS env vars in test fixtures instead of direct `os.environ` mutation
 - [x] **TEST-08**: Add tests for text mode (`r`/`w`) open operations
 - [x] **TEST-09**: Add tests for protocol registration (`fsspec.filesystem("rclone")`)
-- [ ] **TEST-10**: Add tests for `_put_file` and `_get_file` direct transfer operations
+- [x] **TEST-10**: Add tests for `_put_file` and `_get_file` direct transfer operations
 
 ### CI/Security
 
@@ -128,7 +128,7 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | TEST-07 | Phase 1 | Complete |
 | TEST-08 | Phase 2 | Complete |
 | TEST-09 | Phase 1 | Complete |
-| TEST-10 | Phase 4 | Pending |
+| TEST-10 | Phase 4 | Complete |
 | CISC-01 | Phase 5 | Pending |
 
 **Coverage:**

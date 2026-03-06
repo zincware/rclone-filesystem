@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v0.2
 milestone_name: milestone
 status: completed
-stopped_at: Completed 04-01-PLAN.md
-last_updated: "2026-03-06T13:47:07.546Z"
-last_activity: 2026-03-06 -- Completed 03-02 (Listing, metadata, DirCache integration)
+stopped_at: Completed 04-02-PLAN.md
+last_updated: "2026-03-06T13:51:15.753Z"
+last_activity: 2026-03-06 -- Completed 04-01 (put_file, get_file, mkdir, rmdir, cp_file fix)
 progress:
   total_phases: 5
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 9
-  completed_plans: 8
-  percent: 86
+  completed_plans: 9
+  percent: 100
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-06)
 
 **Core value:** Any rclone-supported remote is usable as a first-class fsspec filesystem
-**Current focus:** Phase 3: Listing & Metadata Caching
+**Current focus:** Phase 5: Polish & Packaging
 
 ## Current Position
 
-Phase: 4 of 5 (Transfer Operations & Mutations) -- IN PROGRESS
-Plan: 1 of 2 in current phase
-Status: Completed 04-01 (Transfer operations and mutations)
-Last activity: 2026-03-06 -- Completed 04-01 (put_file, get_file, mkdir, rmdir, cp_file fix)
+Phase: 4 of 5 (Transfer Operations & Mutations) -- COMPLETE
+Plan: 2 of 2 in current phase (all done)
+Status: Completed 04-02 (Enhanced transfer and cache invalidation tests)
+Last activity: 2026-03-06 -- Completed 04-02 (put/get FNFE tests, cache invalidation tests)
 
-Progress: [█████████░] 86%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -58,6 +58,7 @@ Progress: [█████████░] 86%
 | Phase 03 P01 | 3min | 2 tasks | 5 files |
 | Phase 03 P02 | 3min | 2 tasks | 4 files |
 | Phase 04 P01 | 4min | 3 tasks | 4 files |
+| Phase 04 P02 | 2min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -84,6 +85,7 @@ Recent decisions affecting current work:
 - [Phase 04]: Use info() pre-check for cp_file/rmdir since rclone silently succeeds for missing paths
 - [Phase 04]: get_file checks os.path.exists(lpath) post-download for FNFE detection
 - [Phase 04]: rmdir uses rclone.purge() for recursive removal; all mutations invalidate cache
+- [Phase 04]: Cache invalidation tests are rclone_fs-only (implementation detail, not s3fs comparison)
 
 ### Pending Todos
 
@@ -96,6 +98,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-06T13:47:07.543Z
-Stopped at: Completed 04-01-PLAN.md
+Last session: 2026-03-06T13:51:15.750Z
+Stopped at: Completed 04-02-PLAN.md
 Resume file: None
