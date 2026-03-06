@@ -30,11 +30,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. `RCloneFileSystem._strip_protocol("rclone://myremote:bucket/key")` returns the normalized path
   4. Paths containing shell metacharacters (`;`, `|`, `$`, etc.) raise `ValueError` before reaching rclone
   5. Test fixtures use dynamic port assignment and `monkeypatch` for environment variables
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
+- [ ] 01-01-PLAN.md -- Path helper, validation, builtins.open fix, dep bump, path tests
+- [ ] 01-02-PLAN.md -- Protocol registration, _strip_protocol, _get_kwargs_from_urls, protocol tests
+- [ ] 01-03-PLAN.md -- Test fixture hardening (dynamic port, monkeypatch, rclone-python API)
 
 ### Phase 2: File I/O Contract Fix
 **Goal**: Users can read and write files through the standard fsspec `open()` interface, including text mode, without the library overriding fsspec's base class behavior
@@ -96,11 +97,11 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Path Infrastructure and Protocol Registration | 0/? | Not started | - |
+| 1. Path Infrastructure and Protocol Registration | 0/3 | Planning complete | - |
 | 2. File I/O Contract Fix | 0/? | Not started | - |
 | 3. Listing, Metadata, and Caching | 0/? | Not started | - |
 | 4. Transfer Operations and Mutations | 0/? | Not started | - |
