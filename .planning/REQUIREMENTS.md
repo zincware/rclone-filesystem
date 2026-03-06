@@ -49,8 +49,8 @@ Requirements for this milestone. Each maps to roadmap phases.
 - [ ] **TEST-03**: Add tests for write mode edge cases (nested paths, overwrite existing, empty files)
 - [ ] **TEST-04**: Add path edge case tests (double slash, trailing slash, empty string, root path)
 - [ ] **TEST-05**: Add tests for error handling (bad remote, non-existent paths for put/get/info)
-- [ ] **TEST-06**: Fix hardcoded port 5555 in test fixtures to use dynamic port assignment
-- [ ] **TEST-07**: Use `monkeypatch` for AWS env vars in test fixtures instead of direct `os.environ` mutation
+- [x] **TEST-06**: Fix hardcoded port 5555 in test fixtures to use dynamic port assignment
+- [x] **TEST-07**: Use `monkeypatch` for AWS env vars in test fixtures instead of direct `os.environ` mutation
 - [ ] **TEST-08**: Add tests for text mode (`r`/`w`) open operations
 - [ ] **TEST-09**: Add tests for protocol registration (`fsspec.filesystem("rclone")`)
 - [ ] **TEST-10**: Add tests for `_put_file` and `_get_file` direct transfer operations
@@ -124,8 +124,8 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | TEST-03 | Phase 2 | Pending |
 | TEST-04 | Phase 1 | Pending |
 | TEST-05 | Phase 4 | Pending |
-| TEST-06 | Phase 1 | Pending |
-| TEST-07 | Phase 1 | Pending |
+| TEST-06 | Phase 1 | Complete |
+| TEST-07 | Phase 1 | Complete |
 | TEST-08 | Phase 2 | Pending |
 | TEST-09 | Phase 1 | Pending |
 | TEST-10 | Phase 4 | Pending |
