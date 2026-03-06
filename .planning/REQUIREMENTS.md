@@ -18,10 +18,10 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 - [ ] **CONT-01**: Implement `_open()` returning a file-like object instead of overriding `open()` as context manager
 - [ ] **CONT-02**: User can open files in text mode (`r`/`w`) in addition to binary (`rb`/`wb`)
-- [ ] **CONT-03**: Set `protocol = "rclone"` class attribute on `RCloneFileSystem`
-- [ ] **CONT-04**: Implement `_strip_protocol()` classmethod to parse `rclone://remote:path` URLs
-- [ ] **CONT-05**: Implement `_get_kwargs_from_urls()` to extract `remote` kwarg from URLs
-- [ ] **CONT-06**: Register filesystem via `[project.entry-points."fsspec.specs"]` in pyproject.toml so `fsspec.filesystem("rclone")` works
+- [x] **CONT-03**: Set `protocol = "rclone"` class attribute on `RCloneFileSystem`
+- [x] **CONT-04**: Implement `_strip_protocol()` classmethod to parse `rclone://remote:path` URLs
+- [x] **CONT-05**: Implement `_get_kwargs_from_urls()` to extract `remote` kwarg from URLs
+- [x] **CONT-06**: Register filesystem via `[project.entry-points."fsspec.specs"]` in pyproject.toml so `fsspec.filesystem("rclone")` works
 - [ ] **CONT-07**: `ls()` raises `FileNotFoundError` for non-existent paths instead of returning empty list
 
 ### Core Operations
@@ -52,7 +52,7 @@ Requirements for this milestone. Each maps to roadmap phases.
 - [x] **TEST-06**: Fix hardcoded port 5555 in test fixtures to use dynamic port assignment
 - [x] **TEST-07**: Use `monkeypatch` for AWS env vars in test fixtures instead of direct `os.environ` mutation
 - [ ] **TEST-08**: Add tests for text mode (`r`/`w`) open operations
-- [ ] **TEST-09**: Add tests for protocol registration (`fsspec.filesystem("rclone")`)
+- [x] **TEST-09**: Add tests for protocol registration (`fsspec.filesystem("rclone")`)
 - [ ] **TEST-10**: Add tests for `_put_file` and `_get_file` direct transfer operations
 
 ### CI/Security
@@ -102,10 +102,10 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | INFRA-04 | Phase 1 | Complete |
 | CONT-01 | Phase 2 | Pending |
 | CONT-02 | Phase 2 | Pending |
-| CONT-03 | Phase 1 | Pending |
-| CONT-04 | Phase 1 | Pending |
-| CONT-05 | Phase 1 | Pending |
-| CONT-06 | Phase 1 | Pending |
+| CONT-03 | Phase 1 | Complete |
+| CONT-04 | Phase 1 | Complete |
+| CONT-05 | Phase 1 | Complete |
+| CONT-06 | Phase 1 | Complete |
 | CONT-07 | Phase 3 | Pending |
 | CORE-01 | Phase 4 | Pending |
 | CORE-02 | Phase 4 | Pending |
@@ -127,7 +127,7 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | TEST-06 | Phase 1 | Complete |
 | TEST-07 | Phase 1 | Complete |
 | TEST-08 | Phase 2 | Pending |
-| TEST-09 | Phase 1 | Pending |
+| TEST-09 | Phase 1 | Complete |
 | TEST-10 | Phase 4 | Pending |
 | CISC-01 | Phase 5 | Pending |
 

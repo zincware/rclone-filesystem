@@ -12,7 +12,7 @@ This milestone transforms rclone-filesystem from a partially-working prototype i
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Path Infrastructure and Protocol Registration** - Centralized path handling, protocol attributes, entry_points, dependency bump, test fixture hardening
+- [x] **Phase 1: Path Infrastructure and Protocol Registration** - Centralized path handling, protocol attributes, entry_points, dependency bump, test fixture hardening (completed 2026-03-06)
 - [ ] **Phase 2: File I/O Contract Fix** - Proper `_open()` implementation replacing `open()` override, text mode support
 - [ ] **Phase 3: Listing, Metadata, and Caching** - `ls()` with FileNotFoundError, `info()`, DirCache integration, `cat_file()` optimization
 - [ ] **Phase 4: Transfer Operations and Mutations** - `_put_file`, `_get_file`, `cp_file` fix, `mkdir`, `rmdir`, cache invalidation
@@ -30,7 +30,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. `RCloneFileSystem._strip_protocol("rclone://myremote:bucket/key")` returns the normalized path
   4. Paths containing shell metacharacters (`;`, `|`, `$`, etc.) raise `ValueError` before reaching rclone
   5. Test fixtures use dynamic port assignment and `monkeypatch` for environment variables
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [ ] 01-01-PLAN.md -- Path helper, validation, builtins.open fix, dep bump, path tests
@@ -101,7 +101,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Path Infrastructure and Protocol Registration | 2/3 | In Progress|  |
+| 1. Path Infrastructure and Protocol Registration | 3/3 | Complete   | 2026-03-06 |
 | 2. File I/O Contract Fix | 0/? | Not started | - |
 | 3. Listing, Metadata, and Caching | 0/? | Not started | - |
 | 4. Transfer Operations and Mutations | 0/? | Not started | - |
