@@ -30,3 +30,25 @@ def test_path_checks(s3_base, fs_key, request):
 
     s3_base.delete_object(Bucket=bucket_name, Key="test.txt")
     s3_base.delete_bucket(Bucket=bucket_name)
+
+
+@pytest.mark.parametrize("fs_key", ["s3fs_fs", "rclone_fs"])
+def test_info_not_found(s3_base, fs_key, request):
+    fs = request.getfixturevalue(fs_key)
+    bucket_name = uuid4().hex
+    s3_base.create_bucket(Bucket=bucket_name)
+
+    with pytest.raises(FileNotFoundError):
+        fs.info(f"{bucket_name}/nonexistent_file.txt")
+
+
+@pytest.mark.parametrize("fs_key", ["s3fs_fs", "rclone_fs"])
+def test_info_directory(s3_base, fs_key, request):
+    fs = request.getfixturevalue(fs_key)
+    bucket_name = uuid4().hex
+    s3_base.create_bucket(Bucket=bucket_name)
+    s3_base.put_object(Bucket=bucket_name, Key="dir1/file.txt", Body=b"content")
+
+    metadata = fs.info(f"{bucket_name}/dir1")
+    assert metadata["type"] == "directory"
+    assert metadata["name"] == f"{bucket_name}/dir1"

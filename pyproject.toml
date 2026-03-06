@@ -1,6 +1,6 @@
 [project]
 name = "rclone-filesystem"
-version = "0.1.0"
+version = "0.2.0"
 description = "A Python package for integrating rclone with fsspec"
 authors = [
     { name = "Fabian Zills", email = "fzills@icp.uni-stuttgart.de" },
@@ -10,13 +10,17 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "fsspec>=2025.5.1",
-    "rclone-python>=0.1.21",
+    "pydantic-settings>=2.13.1",
+    "rclone-python>=0.1.24",
 ]
 
 [project.urls]
 Repository = "https://github.com/zincware/rclone-filesystem"
 Releases = "https://github.com/zincware/rclone-filesystem/releases"
 Discord = "https://discord.gg/7ncfwhsnm4"
+
+[project.optional-dependencies]
+rclone = ["rclone-bin"]
 
 [dependency-groups]
 dev = [
@@ -25,8 +29,12 @@ dev = [
     "moto>=5.1.5",
     "pytest>=8.4.0",
     "pytest-cov>=6.2.1",
+    "rclone-bin",
     "s3fs>=2025.5.1",
 ]
+
+[project.entry-points."fsspec.specs"]
+rclone = "rclone_filesystem:RCloneFileSystem"
 
 [build-system]
 requires = ["hatchling"]

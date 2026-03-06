@@ -90,16 +90,16 @@ def test_ls_empty_bucket(s3_base, fs_key, request):
     assert detailed_result == []
 
 
-# @pytest.mark.parametrize("fs_key", ["s3fs_fs", "rclone_fs"])
-# def test_ls_not_found(s3_base, fs_key, request):
-#     fs = request.getfixturevalue(fs_key)
+@pytest.mark.parametrize("fs_key", ["s3fs_fs", "rclone_fs"])
+def test_ls_not_found(s3_base, fs_key, request):
+    fs = request.getfixturevalue(fs_key)
 
-#     bucket_name = uuid4().hex
+    bucket_name = uuid4().hex
 
-#     s3_base.create_bucket(Bucket=bucket_name)
+    s3_base.create_bucket(Bucket=bucket_name)
 
-#     with pytest.raises(FileNotFoundError):
-#         fs.ls(f"{bucket_name}/nonexistent")
+    with pytest.raises(FileNotFoundError):
+        fs.ls(f"{bucket_name}/nonexistent")
 
-#     with pytest.raises(FileNotFoundError):
-#         fs.ls(f"{bucket_name}/nonexistent/", detail=True)
+    with pytest.raises(FileNotFoundError):
+        fs.ls(f"{bucket_name}/nonexistent/", detail=True)
