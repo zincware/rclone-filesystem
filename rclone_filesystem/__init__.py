@@ -179,27 +179,131 @@ class RCloneFileSystem(AbstractFileSystem):
             return self._remote + ":"
         return self._remote + ":" + path.lstrip("/")
 
+    def _raise_if_not_found(self, path):
+        """Raise FileNotFoundError if *path* does not exist on the remote.
+
+        Called when ``ls()`` returns an empty result to distinguish between
+        an empty directory and a nonexistent path.  The parent directory is
+        listed to check whether *path* appears as an entry.  The parent
+        listing is **not** cached in DirCache (discarded after the check).
+        """
+        parent = self._parent(path)
+        if parent == path:
+            # Root level — empty bucket is valid, never raise
+            return
+
+        try:
+            parent_result = rclone.ls(
+                self._make_rclone_path(parent), max_depth=1
+            )
+        except RcloneException:
+            raise FileNotFoundError(
+                f"No such file or directory: '{path}'"
+            )
+
+        basename = path.rsplit("/", 1)[-1] if "/" in path else path
+        for entry in parent_result:
+            if entry["Path"] == basename:
+                return  # exists — it's just empty
+        raise FileNotFoundError(f"No such file or directory: '{path}'")
+
     def ls(self, path, detail=False, **kwargs):
         """List files in the given path.
 
-        Limitations
-        -----------
-        - This will not raise ``FileNotFoundError`` if the path
-            does not exist, but will return an empty list.
+        Parameters
+        ----------
+        path : str
+            Remote path to list.
+        detail : bool
+            If True, return list of dicts with full metadata.
+        refresh : bool (keyword-only, via **kwargs)
+            If True, bypass DirCache and re-fetch from remote.
         """
-        rclone_path = self._make_rclone_path(path)
-        result = rclone.ls(rclone_path, **kwargs)
+        path = self._strip_protocol(path).rstrip("/")
+        refresh = kwargs.pop("refresh", False)
 
-        if detail:
-            return [
+        # Check cache first (unless refresh requested)
+        if not refresh and path in self.dircache:
+            entries = self.dircache[path]
+        else:
+            rclone_path = self._make_rclone_path(path)
+            result = rclone.ls(rclone_path, max_depth=1)
+            entries = [
                 {
-                    "name": str(Path(path) / str(x["Path"])),
+                    "name": (path + "/" + x["Path"]).lstrip("/"),
                     "size": x["Size"],
                     "type": "directory" if x["IsDir"] else "file",
+                    "ModTime": x.get("ModTime"),
+                    "MimeType": x.get("MimeType"),
                 }
                 for x in result
             ]
-        return [str(Path(path) / str(x["Path"])) for x in result]
+            # Populate DirCache
+            self.dircache[path] = entries
+
+            # FNFE heuristic: empty result -> check parent
+            if not entries:
+                self._raise_if_not_found(path)
+
+        if detail:
+            return entries
+        return sorted([e["name"] for e in entries])
+
+    def info(self, path, **kwargs):
+        """Return metadata dict for a single path.
+
+        Checks the DirCache first (parent listing lookup).  If not cached,
+        lists the parent directory via rclone to find the entry, caching the
+        result.
+
+        Returns
+        -------
+        dict
+            At minimum ``name``, ``size``, ``type``.
+
+        Raises
+        ------
+        FileNotFoundError
+            If the path does not exist on the remote.
+        """
+        path = self._strip_protocol(path).rstrip("/")
+
+        # Check if parent is cached — entry might be in parent listing
+        parent = self._parent(path)
+        if parent in self.dircache:
+            for entry in self.dircache[parent]:
+                if entry["name"].rstrip("/") == path:
+                    return entry
+
+        # Not in cache — list the parent to find our entry
+        try:
+            parent_result = rclone.ls(
+                self._make_rclone_path(parent), max_depth=1
+            )
+        except RcloneException as e:
+            raise FileNotFoundError(
+                f"No such file or directory: '{path}'"
+            ) from e
+
+        # Build and cache parent entries
+        parent_entries = [
+            {
+                "name": (parent + "/" + x["Path"]).lstrip("/"),
+                "size": x["Size"],
+                "type": "directory" if x["IsDir"] else "file",
+                "ModTime": x.get("ModTime"),
+                "MimeType": x.get("MimeType"),
+            }
+            for x in parent_result
+        ]
+        self.dircache[parent] = parent_entries
+
+        # Find our entry
+        for entry in parent_entries:
+            if entry["name"].rstrip("/") == path:
+                return entry
+
+        raise FileNotFoundError(f"No such file or directory: '{path}'")
 
     def _open(self, path, mode="rb", block_size=None, autocommit=True,
               cache_options=None, **kwargs):
