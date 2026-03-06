@@ -57,7 +57,7 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### CI/Security
 
-- [ ] **CISC-01**: Pin rclone binary version in CI instead of curl-pipe-bash install pattern
+- [x] **CISC-01**: Pin rclone binary version in CI instead of curl-pipe-bash install pattern
 
 ## v2 Requirements
 
@@ -129,7 +129,7 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | TEST-08 | Phase 2 | Complete |
 | TEST-09 | Phase 1 | Complete |
 | TEST-10 | Phase 4 | Complete |
-| CISC-01 | Phase 5 | Pending |
+| CISC-01 | Phase 5 | Complete |
 
 **Coverage:**
 - v1 requirements: 33 total
