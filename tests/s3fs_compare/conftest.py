@@ -1,14 +1,21 @@
-import os
-import subprocess
+import socket
 
 import pytest
 from moto.moto_server.threaded_moto_server import ThreadedMotoServer
+from rclone_python import rclone
+from rclone_python.utils import run_rclone_cmd
 from s3fs import S3FileSystem
 
 from rclone_filesystem import RCloneFileSystem
 
-port = 5555
-endpoint_uri = "http://127.0.0.1:%s/" % port
+_endpoint_uri: str | None = None
+
+
+def _get_free_port() -> int:
+    """Get a free port by binding to port 0 and reading the assigned port."""
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(("127.0.0.1", 0))
+        return s.getsockname()[1]
 
 
 @pytest.fixture(scope="module")
@@ -16,75 +23,57 @@ def s3_base():
     # writable local S3 system
 
     # This fixture is module-scoped, meaning that we can re-use the MotoServer across all tests
+    global _endpoint_uri  # noqa: PLW0603
+
+    port = _get_free_port()
+    _endpoint_uri = f"http://127.0.0.1:{port}/"
+
     server = ThreadedMotoServer(ip_address="127.0.0.1", port=port)
     server.start()
-    if "AWS_SECRET_ACCESS_KEY" not in os.environ:
-        os.environ["AWS_SECRET_ACCESS_KEY"] = "foo"
-    if "AWS_ACCESS_KEY_ID" not in os.environ:
-        os.environ["AWS_ACCESS_KEY_ID"] = "foo"
-    os.environ.pop("AWS_PROFILE", None)
 
-    print("server up")
-    yield get_boto3_client()
-    print("moto done")
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setenv("AWS_SECRET_ACCESS_KEY", "foo")
+        mp.setenv("AWS_ACCESS_KEY_ID", "foo")
+        mp.delenv("AWS_PROFILE", raising=False)
+
+        print("server up")
+        yield _get_boto3_client()
+        print("moto done")
+
     server.stop()
+    _endpoint_uri = None
 
 
 @pytest.fixture(autouse=True)
 def setup_rclone_remote():
-    # use subprocess to create the rclone remote
+    # Create the rclone remote using rclone-python API
 
-    # First, try to delete the remote if it exists, to ensure a clean state
-    # Use check=False here as it's fine if the remote doesn't exist
-    subprocess.run(
-        [
-            "rclone",
-            "config",
-            "delete",
-            "s3-test",
-        ],
-        capture_output=True,  # Capture output to prevent it from cluttering test logs
-        check=False,
-    )
+    # First, delete the remote if it exists to ensure a clean state
+    if rclone.check_remote_existing("s3-test"):
+        run_rclone_cmd('config delete "s3-test"')
 
     # Now create the remote
-    subprocess.run(
-        [
-            "rclone",
-            "config",
-            "create",
-            "s3-test",
-            "s3",
-            "env_auth=false",  # Explicitly tell rclone not to use environment variables for auth
-            "access_key_id=foo",
-            "secret_access_key=foo",
-            f"endpoint={endpoint_uri}",
-            "force_path_style=true",  # Important for Moto S3 compatibility
-            "acl=private",  # Default ACL, can be adjusted
-        ],
-        check=True,
-        capture_output=True,  # Capture output for debugging if check=True fails
+    rclone.create_remote(
+        "s3-test",
+        "s3",
+        env_auth="false",
+        access_key_id="foo",
+        secret_access_key="foo",
+        endpoint=_endpoint_uri,
+        force_path_style="true",
+        acl="private",
     )
     yield  # this is where the testing happens
 
-    subprocess.run(
-        [
-            "rclone",
-            "config",
-            "delete",
-            "s3-test",
-        ],
-        check=True,
-        capture_output=True,
-    )
+    run_rclone_cmd('config delete "s3-test"')
 
 
-def get_boto3_client():
+def _get_boto3_client():
     from botocore.session import Session
 
     # NB: we use the sync botocore client for setup
     session = Session()
-    return session.create_client("s3", endpoint_url=endpoint_uri)
+    return session.create_client("s3", endpoint_url=_endpoint_uri)
 
 
 @pytest.fixture
@@ -96,4 +85,4 @@ def rclone_fs():
 @pytest.fixture
 def s3fs_fs():
     """Fixture to create an S3FileSystem instance."""
-    return S3FileSystem(anon=False, client_kwargs={"endpoint_url": endpoint_uri})
+    return S3FileSystem(anon=False, client_kwargs={"endpoint_url": _endpoint_uri})
