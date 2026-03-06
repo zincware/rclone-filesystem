@@ -8,3 +8,4 @@ class RCloneFileSystemSettings(BaseSettings):
     )
     temp_dir: str | None = None
     listings_expiry_time_secs: float | None = None
+    show_progress: bool = False

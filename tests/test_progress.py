@@ -31,27 +31,27 @@ def test_show_progress_setting_env_var(monkeypatch):
 
 @patch("rclone_filesystem.rclone.ls", return_value=[])
 def test_show_progress_default_false(mock_ls):
-    fs = RCloneFileSystem(remote="test")
+    fs = RCloneFileSystem(remote="test", skip_instance_cache=True)
     assert fs._show_progress is False
 
 
 @patch("rclone_filesystem.rclone.ls", return_value=[])
 def test_show_progress_constructor_true(mock_ls):
-    fs = RCloneFileSystem(remote="test", show_progress=True)
+    fs = RCloneFileSystem(remote="test", show_progress=True, skip_instance_cache=True)
     assert fs._show_progress is True
 
 
 @patch("rclone_filesystem.rclone.ls", return_value=[])
 def test_show_progress_env_var(mock_ls, monkeypatch):
     monkeypatch.setenv("RCLONE_FS_SHOW_PROGRESS", "true")
-    fs = RCloneFileSystem(remote="test")
+    fs = RCloneFileSystem(remote="test", skip_instance_cache=True)
     assert fs._show_progress is True
 
 
 @patch("rclone_filesystem.rclone.ls", return_value=[])
 def test_show_progress_constructor_overrides_env(mock_ls, monkeypatch):
     monkeypatch.setenv("RCLONE_FS_SHOW_PROGRESS", "true")
-    fs = RCloneFileSystem(remote="test", show_progress=False)
+    fs = RCloneFileSystem(remote="test", show_progress=False, skip_instance_cache=True)
     assert fs._show_progress is False
 
 
@@ -64,7 +64,7 @@ def test_show_progress_constructor_overrides_env(mock_ls, monkeypatch):
 @patch("rclone_filesystem.rclone.copyto")
 @patch("rclone_filesystem.rclone.ls", return_value=[])
 def test_put_file_forwards_show_progress(mock_ls, mock_copyto, mock_exists):
-    fs = RCloneFileSystem(remote="test")
+    fs = RCloneFileSystem(remote="test", skip_instance_cache=True)
     fs.put_file("/tmp/local.txt", "remote.txt", show_progress=True)
     mock_copyto.assert_called_once()
     assert mock_copyto.call_args.kwargs["show_progress"] is True
@@ -74,7 +74,7 @@ def test_put_file_forwards_show_progress(mock_ls, mock_copyto, mock_exists):
 @patch("rclone_filesystem.rclone.copyto")
 @patch("rclone_filesystem.rclone.ls", return_value=[])
 def test_put_file_forwards_pbar(mock_ls, mock_copyto, mock_exists):
-    fs = RCloneFileSystem(remote="test")
+    fs = RCloneFileSystem(remote="test", skip_instance_cache=True)
     mock_pbar = MagicMock()
     fs.put_file("/tmp/local.txt", "remote.txt", pbar=mock_pbar)
     mock_copyto.assert_called_once()
@@ -85,7 +85,7 @@ def test_put_file_forwards_pbar(mock_ls, mock_copyto, mock_exists):
 @patch("rclone_filesystem.rclone.copyto")
 @patch("rclone_filesystem.rclone.ls", return_value=[])
 def test_put_file_per_call_overrides_instance(mock_ls, mock_copyto, mock_exists):
-    fs = RCloneFileSystem(remote="test", show_progress=True)
+    fs = RCloneFileSystem(remote="test", show_progress=True, skip_instance_cache=True)
     fs.put_file("/tmp/local.txt", "remote.txt", show_progress=False)
     mock_copyto.assert_called_once()
     assert mock_copyto.call_args.kwargs["show_progress"] is False
@@ -100,7 +100,7 @@ def test_put_file_per_call_overrides_instance(mock_ls, mock_copyto, mock_exists)
 @patch("rclone_filesystem.rclone.copyto")
 @patch("rclone_filesystem.rclone.ls", return_value=[])
 def test_get_file_forwards_show_progress(mock_ls, mock_copyto, mock_exists):
-    fs = RCloneFileSystem(remote="test")
+    fs = RCloneFileSystem(remote="test", skip_instance_cache=True)
     fs.get_file("remote.txt", "/tmp/local.txt", show_progress=True)
     mock_copyto.assert_called_once()
     assert mock_copyto.call_args.kwargs["show_progress"] is True
@@ -114,7 +114,7 @@ def test_get_file_forwards_show_progress(mock_ls, mock_copyto, mock_exists):
 @patch("rclone_filesystem.rclone.copyto")
 @patch("rclone_filesystem.rclone.ls", return_value=[{"Path": "src.txt", "Size": 10, "IsDir": False}])
 def test_cp_file_forwards_show_progress(mock_ls, mock_copyto):
-    fs = RCloneFileSystem(remote="test")
+    fs = RCloneFileSystem(remote="test", skip_instance_cache=True)
     fs.cp_file("src.txt", "dst.txt", show_progress=True)
     mock_copyto.assert_called_once()
     assert mock_copyto.call_args.kwargs["show_progress"] is True

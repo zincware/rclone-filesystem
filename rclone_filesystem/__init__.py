@@ -27,11 +27,12 @@ class RCloneFile(io.IOBase):
         self.mode = mode
         self._tmp_dir = tempfile.mkdtemp(dir=fs._temp_dir)
         self._closed = False
+        self._show_progress = fs._show_progress
 
         if "r" in mode:
             rclone_path = fs._make_rclone_path(path)
             try:
-                rclone.copy(rclone_path, self._tmp_dir, show_progress=False)
+                rclone.copy(rclone_path, self._tmp_dir, show_progress=self._show_progress)
             except RcloneException as e:
                 self._cleanup()
                 raise FileNotFoundError(f"File not found: {path}") from e
@@ -81,7 +82,7 @@ class RCloneFile(io.IOBase):
                     rclone.copyto(
                         self._tmp_file.as_posix(),
                         rclone_path,
-                        show_progress=False,
+                        show_progress=self._show_progress,
                     )
                     self.fs.invalidate_cache(self.path)
                 except RcloneException as e:
@@ -114,6 +115,7 @@ class RCloneFileSystem(AbstractFileSystem):
         temp_dir=None,
         listings_expiry_time_secs=None,
         use_listings_cache=True,
+        show_progress=None,
         **kwargs,
     ):
         settings = RCloneFileSystemSettings()
@@ -133,6 +135,9 @@ class RCloneFileSystem(AbstractFileSystem):
         )
         self._remote = remote
         self._temp_dir = resolved_temp_dir
+        self._show_progress = (
+            show_progress if show_progress is not None else settings.show_progress
+        )
 
     @classmethod
     def _strip_protocol(cls, path):
@@ -329,18 +334,28 @@ class RCloneFileSystem(AbstractFileSystem):
         """Upload a local file to the remote."""
         if not os.path.exists(lpath):
             raise FileNotFoundError(f"Local file not found: {lpath}")
+        show_progress = kwargs.pop("show_progress", self._show_progress)
+        pbar = kwargs.pop("pbar", None)
         rclone_path = self._make_rclone_path(rpath)
         try:
-            rclone.copyto(lpath, rclone_path, show_progress=False, **kwargs)
+            rclone.copyto(
+                lpath, rclone_path,
+                show_progress=show_progress, pbar=pbar, **kwargs,
+            )
         except RcloneException as e:
             raise OSError(f"Failed to upload {lpath} to {rpath}") from e
         self.invalidate_cache(rpath)
 
     def get_file(self, rpath, lpath, callback=None, outfile=None, **kwargs):
         """Download a remote file to local path."""
+        show_progress = kwargs.pop("show_progress", self._show_progress)
+        pbar = kwargs.pop("pbar", None)
         rclone_path = self._make_rclone_path(rpath)
         try:
-            rclone.copyto(rclone_path, lpath, show_progress=False, **kwargs)
+            rclone.copyto(
+                rclone_path, lpath,
+                show_progress=show_progress, pbar=pbar, **kwargs,
+            )
         except RcloneException as e:
             raise FileNotFoundError(f"File not found: {rpath}") from e
         # rclone copyto silently succeeds for missing files (no local file created)
@@ -352,10 +367,15 @@ class RCloneFileSystem(AbstractFileSystem):
         # Verify source exists before copying (rclone copyto silently succeeds
         # for missing sources)
         self.info(path1)
+        show_progress = kwargs.pop("show_progress", self._show_progress)
+        pbar = kwargs.pop("pbar", None)
         rclone_path1 = self._make_rclone_path(path1)
         rclone_path2 = self._make_rclone_path(path2)
         try:
-            rclone.copyto(rclone_path1, rclone_path2, show_progress=False)
+            rclone.copyto(
+                rclone_path1, rclone_path2,
+                show_progress=show_progress, pbar=pbar, **kwargs,
+            )
         except RcloneException as e:
             raise FileNotFoundError(f"File not found: {path1}") from e
         self.invalidate_cache(path2)
