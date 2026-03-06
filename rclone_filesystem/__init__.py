@@ -1,5 +1,6 @@
 import builtins
 import io
+import os
 import shutil
 import tempfile
 from pathlib import Path
@@ -323,11 +324,40 @@ class RCloneFileSystem(AbstractFileSystem):
             )
         return RCloneFile(self, path, mode)
 
+    def put_file(self, lpath, rpath, callback=None, mode="overwrite", **kwargs):
+        """Upload a local file to the remote."""
+        if not os.path.exists(lpath):
+            raise FileNotFoundError(f"Local file not found: {lpath}")
+        rclone_path = self._make_rclone_path(rpath)
+        try:
+            rclone.copyto(lpath, rclone_path, show_progress=False, **kwargs)
+        except RcloneException as e:
+            raise OSError(f"Failed to upload {lpath} to {rpath}") from e
+        self.invalidate_cache(rpath)
+
+    def get_file(self, rpath, lpath, callback=None, outfile=None, **kwargs):
+        """Download a remote file to local path."""
+        rclone_path = self._make_rclone_path(rpath)
+        try:
+            rclone.copyto(rclone_path, lpath, show_progress=False, **kwargs)
+        except RcloneException as e:
+            raise FileNotFoundError(f"File not found: {rpath}") from e
+        # rclone copyto silently succeeds for missing files (no local file created)
+        if not os.path.exists(lpath):
+            raise FileNotFoundError(f"File not found: {rpath}")
+
     def cp_file(self, path1, path2, **kwargs):
         """Copy a file from path1 to path2."""
+        # Verify source exists before copying (rclone copyto silently succeeds
+        # for missing sources)
+        self.info(path1)
         rclone_path1 = self._make_rclone_path(path1)
         rclone_path2 = self._make_rclone_path(path2)
-        rclone.copy(rclone_path1, rclone_path2)
+        try:
+            rclone.copyto(rclone_path1, rclone_path2, show_progress=False)
+        except RcloneException as e:
+            raise FileNotFoundError(f"File not found: {path1}") from e
+        self.invalidate_cache(path2)
 
     def rm_file(self, path):
         """Remove a file at the given path."""
