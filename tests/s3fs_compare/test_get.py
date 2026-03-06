@@ -23,3 +23,36 @@ def test_get(s3_base, fs_key, request, tmp_path):
 
     with local_path.open("rb") as f:
         assert f.read() == test_content
+
+
+@pytest.mark.parametrize("fs_key", ["s3fs_fs", "rclone_fs"])
+def test_get_to_exact_path(s3_base, fs_key, request, tmp_path):
+    """Get downloads to the exact local path specified."""
+    fs = request.getfixturevalue(fs_key)
+
+    bucket_name = uuid4().hex
+    s3_base.create_bucket(Bucket=bucket_name)
+
+    test_content = b"exact path content"
+    s3_key = "remote_file.txt"
+    s3_base.put_object(Bucket=bucket_name, Key=s3_key, Body=test_content)
+
+    local_path = tmp_path / "specific_name.txt"
+    remote_path = f"{bucket_name}/{s3_key}"
+    fs.get(remote_path, local_path.as_posix())
+
+    assert local_path.exists()
+    with local_path.open("rb") as f:
+        assert f.read() == test_content
+
+
+def test_get_missing_remote_raises(s3_base, rclone_fs, tmp_path):
+    """Get nonexistent remote file raises FileNotFoundError."""
+    bucket_name = uuid4().hex
+    s3_base.create_bucket(Bucket=bucket_name)
+
+    local_path = tmp_path / "download.txt"
+    remote_path = f"{bucket_name}/nonexistent.txt"
+
+    with pytest.raises(FileNotFoundError):
+        rclone_fs.get(remote_path, local_path.as_posix())
