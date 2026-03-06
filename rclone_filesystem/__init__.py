@@ -45,6 +45,9 @@ class RCloneFile(io.IOBase):
             tmp_path = Path(self._tmp_dir) / Path(path).name
             self._tmp_file = tmp_path
             self._f = builtins.open(tmp_path, mode)
+        else:
+            self._cleanup()
+            raise ValueError(f"Unsupported mode: {mode!r}")
 
     def read(self, *args, **kwargs):
         return self._f.read(*args, **kwargs)
@@ -203,10 +206,10 @@ class RCloneFileSystem(AbstractFileSystem):
             parent_result = rclone.ls(
                 self._make_rclone_path(parent), max_depth=1
             )
-        except RcloneException:
+        except RcloneException as e:
             raise FileNotFoundError(
                 f"No such file or directory: '{path}'"
-            )
+            ) from e
 
         basename = path.rsplit("/", 1)[-1] if "/" in path else path
         for entry in parent_result:
@@ -275,6 +278,10 @@ class RCloneFileSystem(AbstractFileSystem):
         """
         path = self._strip_protocol(path).rstrip("/")
 
+        # Root path — always exists as a directory
+        if path == self.root_marker:
+            return {"name": "", "size": 0, "type": "directory"}
+
         # Check if parent is cached — entry might be in parent listing
         parent = self._parent(path)
         if parent in self.dircache:
@@ -340,7 +347,7 @@ class RCloneFileSystem(AbstractFileSystem):
         try:
             rclone.copyto(
                 lpath, rclone_path,
-                show_progress=show_progress, pbar=pbar, **kwargs,
+                show_progress=show_progress, pbar=pbar,
             )
         except RcloneException as e:
             raise OSError(f"Failed to upload {lpath} to {rpath}") from e
@@ -354,7 +361,7 @@ class RCloneFileSystem(AbstractFileSystem):
         try:
             rclone.copyto(
                 rclone_path, lpath,
-                show_progress=show_progress, pbar=pbar, **kwargs,
+                show_progress=show_progress, pbar=pbar,
             )
         except RcloneException as e:
             raise FileNotFoundError(f"File not found: {rpath}") from e
@@ -374,7 +381,7 @@ class RCloneFileSystem(AbstractFileSystem):
         try:
             rclone.copyto(
                 rclone_path1, rclone_path2,
-                show_progress=show_progress, pbar=pbar, **kwargs,
+                show_progress=show_progress, pbar=pbar,
             )
         except RcloneException as e:
             raise FileNotFoundError(f"File not found: {path1}") from e
@@ -393,7 +400,12 @@ class RCloneFileSystem(AbstractFileSystem):
         self.invalidate_cache(path)
 
     def rmdir(self, path):
-        """Remove a directory and all its contents."""
+        """Remove a directory and all its contents recursively.
+
+        Uses ``rclone purge`` under the hood, which deletes the directory
+        and everything inside it (unlike the typical fsspec convention of
+        only removing empty directories).
+        """
         # Verify path exists before purging (rclone purge may silently succeed
         # for nonexistent paths with some backends)
         self.info(path)
@@ -436,10 +448,12 @@ class RCloneFileSystem(AbstractFileSystem):
             self.dircache.clear()
         else:
             path = self._strip_protocol(path).rstrip("/")
+            orig_path = path
             self.dircache.pop(path, None)
             parent = self._parent(path)
             while parent and parent != path:
                 self.dircache.pop(parent, None)
                 path = parent
                 parent = self._parent(path)
+            path = orig_path
         super().invalidate_cache(path)
