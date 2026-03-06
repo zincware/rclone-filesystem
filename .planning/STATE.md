@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v0.2
 milestone_name: milestone
 status: completed
-stopped_at: Completed 05-02-PLAN.md
-last_updated: "2026-03-06T14:19:51.345Z"
-last_activity: 2026-03-06 -- Completed 04-02 (put/get FNFE tests, cache invalidation tests)
+stopped_at: Completed 05-01-PLAN.md
+last_updated: "2026-03-06T14:20:50Z"
+last_activity: 2026-03-06 -- Completed 05-01 (progress parameter forwarding)
 progress:
   total_phases: 5
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 11
-  completed_plans: 10
+  completed_plans: 11
   percent: 100
 ---
 
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-03-06)
 
 ## Current Position
 
-Phase: 5 of 5 (Polish & Ecosystem Readiness) -- IN PROGRESS
-Plan: 2 of 2 in current phase
-Status: Completed 05-02 (CI rclone-bin integration)
-Last activity: 2026-03-06 -- Completed 05-02 (rclone-bin replaces curl install in CI)
+Phase: 5 of 5 (Polish & Ecosystem Readiness) -- COMPLETE
+Plan: 2 of 2 in current phase (all done)
+Status: Completed 05-01 (progress parameter forwarding)
+Last activity: 2026-03-06 -- Completed 05-01 (show_progress/pbar wired through all transfer ops)
 
-Progress: [█████████░] 91%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -60,6 +60,7 @@ Progress: [█████████░] 91%
 | Phase 04 P01 | 4min | 3 tasks | 4 files |
 | Phase 04 P02 | 2min | 2 tasks | 3 files |
 | Phase 05 P02 | 2min | 1 tasks | 3 files |
+| Phase 05 P01 | 3min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -88,6 +89,8 @@ Recent decisions affecting current work:
 - [Phase 04]: rmdir uses rclone.purge() for recursive removal; all mutations invalidate cache
 - [Phase 04]: Cache invalidation tests are rclone_fs-only (implementation detail, not s3fs comparison)
 - [Phase 05]: rclone-bin unpinned in pyproject.toml, pinned via uv.lock for flexibility + reproducibility
+- [Phase 05-01]: Pop show_progress/pbar from kwargs before forwarding to rclone to avoid multiple-values TypeError
+- [Phase 05-01]: RCloneFile inherits _show_progress from parent filesystem (not per-call configurable)
 
 ### Pending Todos
 
@@ -100,6 +103,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-06T14:19:51.343Z
-Stopped at: Completed 05-02-PLAN.md
+Last session: 2026-03-06T14:20:50Z
+Stopped at: Completed 05-01-PLAN.md (all plans complete)
 Resume file: None

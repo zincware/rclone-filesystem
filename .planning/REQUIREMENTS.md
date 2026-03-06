@@ -40,7 +40,7 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 - [x] **PERF-01**: Implement `cat_file()` using `rclone.cat()` for direct content retrieval without temp files
 - [x] **PERF-02**: Enable fsspec's `use_listings_cache` for repeated ls/info calls
-- [ ] **PERF-03**: Add rich progress bar support to transfer operations (`_put_file`, `_get_file`) via rclone-python's `pbar=` parameter
+- [x] **PERF-03**: Add rich progress bar support to transfer operations (`_put_file`, `_get_file`) via rclone-python's `pbar=` parameter
 
 ### Testing
 
@@ -118,7 +118,7 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | CORE-09 | Phase 4 | Complete |
 | PERF-01 | Phase 3 | Complete |
 | PERF-02 | Phase 3 | Complete |
-| PERF-03 | Phase 5 | Pending |
+| PERF-03 | Phase 5 | Complete |
 | TEST-01 | Phase 4 | Complete |
 | TEST-02 | Phase 3 | Complete |
 | TEST-03 | Phase 2 | Complete |
