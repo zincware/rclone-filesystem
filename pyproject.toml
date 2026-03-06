@@ -1,6 +1,6 @@
 [project]
 name = "rclone-filesystem"
-version = "0.1.0"
+version = "0.2.0"
 description = "A Python package for integrating rclone with fsspec"
 authors = [
     { name = "Fabian Zills", email = "fzills@icp.uni-stuttgart.de" },
