@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v0.2
 milestone_name: milestone
 status: completed
-stopped_at: Phase 4 context gathered
-last_updated: "2026-03-06T12:24:51.217Z"
+stopped_at: Completed 04-01-PLAN.md
+last_updated: "2026-03-06T13:47:07.546Z"
 last_activity: 2026-03-06 -- Completed 03-02 (Listing, metadata, DirCache integration)
 progress:
   total_phases: 5
   completed_phases: 3
-  total_plans: 7
-  completed_plans: 7
+  total_plans: 9
+  completed_plans: 8
   percent: 86
 ---
 
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-03-06)
 
 ## Current Position
 
-Phase: 3 of 5 (Listing & Metadata Caching) -- COMPLETE
-Plan: 2 of 2 in current phase (All plans complete)
-Status: Phase 03 complete
-Last activity: 2026-03-06 -- Completed 03-02 (Listing, metadata, DirCache integration)
+Phase: 4 of 5 (Transfer Operations & Mutations) -- IN PROGRESS
+Plan: 1 of 2 in current phase
+Status: Completed 04-01 (Transfer operations and mutations)
+Last activity: 2026-03-06 -- Completed 04-01 (put_file, get_file, mkdir, rmdir, cp_file fix)
 
 Progress: [█████████░] 86%
 
@@ -57,6 +57,7 @@ Progress: [█████████░] 86%
 | Phase 02 P02 | 2min | 2 tasks | 2 files |
 | Phase 03 P01 | 3min | 2 tasks | 5 files |
 | Phase 03 P02 | 3min | 2 tasks | 4 files |
+| Phase 04 P01 | 4min | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -80,6 +81,9 @@ Recent decisions affecting current work:
 - [Phase 03]: FNFE heuristic: empty ls result triggers parent listing check before raising
 - [Phase 03]: DirCache populated only after FNFE check passes (prevents caching nonexistent paths)
 - [Phase 03]: info() lists parent directory and caches result; checks dircache[parent] before rclone call
+- [Phase 04]: Use info() pre-check for cp_file/rmdir since rclone silently succeeds for missing paths
+- [Phase 04]: get_file checks os.path.exists(lpath) post-download for FNFE detection
+- [Phase 04]: rmdir uses rclone.purge() for recursive removal; all mutations invalidate cache
 
 ### Pending Todos
 
@@ -92,6 +96,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-06T12:24:51.214Z
-Stopped at: Phase 4 context gathered
-Resume file: .planning/phases/04-transfer-operations-and-mutations/04-CONTEXT.md
+Last session: 2026-03-06T13:47:07.543Z
+Stopped at: Completed 04-01-PLAN.md
+Resume file: None

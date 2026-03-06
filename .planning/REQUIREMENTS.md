@@ -26,15 +26,15 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### Core Operations
 
-- [ ] **CORE-01**: Implement `_put_file()` using `rclone.copyto()` for efficient direct local-to-remote upload
-- [ ] **CORE-02**: Implement `_get_file()` using `rclone.copy()` for efficient direct remote-to-local download
+- [x] **CORE-01**: Implement `_put_file()` using `rclone.copyto()` for efficient direct local-to-remote upload
+- [x] **CORE-02**: Implement `_get_file()` using `rclone.copy()` for efficient direct remote-to-local download
 - [x] **CORE-03**: Implement `info()` for efficient single-path metadata retrieval (name, size, type)
-- [ ] **CORE-04**: Implement `mkdir()` using `rclone.mkdir()`
-- [ ] **CORE-05**: Implement `rmdir()` using `rclone.purge()`
-- [ ] **CORE-06**: Fix `cp_file()` to use `rclone.copyto()` instead of `rclone.copy()` for correct file-to-file semantics
+- [x] **CORE-04**: Implement `mkdir()` using `rclone.mkdir()`
+- [x] **CORE-05**: Implement `rmdir()` using `rclone.purge()`
+- [x] **CORE-06**: Fix `cp_file()` to use `rclone.copyto()` instead of `rclone.copy()` for correct file-to-file semantics
 - [x] **CORE-07**: Fix `open()` write mode to use `rclone.copyto()` instead of `Path().parent` path manipulation
 - [x] **CORE-08**: Implement `invalidate_cache()` and wire DirCache into `ls()` using fsspec's built-in `self.dircache`
-- [ ] **CORE-09**: Call `invalidate_cache()` after all mutation operations (put, rm, cp, mkdir, rmdir)
+- [x] **CORE-09**: Call `invalidate_cache()` after all mutation operations (put, rm, cp, mkdir, rmdir)
 
 ### Performance
 
@@ -44,11 +44,11 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### Testing
 
-- [ ] **TEST-01**: Add tests for `cp_file` verifying correct file-to-file copy semantics
+- [x] **TEST-01**: Add tests for `cp_file` verifying correct file-to-file copy semantics
 - [x] **TEST-02**: Un-comment and fix `test_ls_not_found` to verify `FileNotFoundError` is raised
 - [x] **TEST-03**: Add tests for write mode edge cases (nested paths, overwrite existing, empty files)
 - [x] **TEST-04**: Add path edge case tests (double slash, trailing slash, empty string, root path)
-- [ ] **TEST-05**: Add tests for error handling (bad remote, non-existent paths for put/get/info)
+- [x] **TEST-05**: Add tests for error handling (bad remote, non-existent paths for put/get/info)
 - [x] **TEST-06**: Fix hardcoded port 5555 in test fixtures to use dynamic port assignment
 - [x] **TEST-07**: Use `monkeypatch` for AWS env vars in test fixtures instead of direct `os.environ` mutation
 - [x] **TEST-08**: Add tests for text mode (`r`/`w`) open operations
@@ -107,23 +107,23 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | CONT-05 | Phase 1 | Complete |
 | CONT-06 | Phase 1 | Complete |
 | CONT-07 | Phase 3 | Complete |
-| CORE-01 | Phase 4 | Pending |
-| CORE-02 | Phase 4 | Pending |
+| CORE-01 | Phase 4 | Complete |
+| CORE-02 | Phase 4 | Complete |
 | CORE-03 | Phase 3 | Complete |
-| CORE-04 | Phase 4 | Pending |
-| CORE-05 | Phase 4 | Pending |
-| CORE-06 | Phase 4 | Pending |
+| CORE-04 | Phase 4 | Complete |
+| CORE-05 | Phase 4 | Complete |
+| CORE-06 | Phase 4 | Complete |
 | CORE-07 | Phase 2 | Complete |
 | CORE-08 | Phase 3 | Complete |
-| CORE-09 | Phase 4 | Pending |
+| CORE-09 | Phase 4 | Complete |
 | PERF-01 | Phase 3 | Complete |
 | PERF-02 | Phase 3 | Complete |
 | PERF-03 | Phase 5 | Pending |
-| TEST-01 | Phase 4 | Pending |
+| TEST-01 | Phase 4 | Complete |
 | TEST-02 | Phase 3 | Complete |
 | TEST-03 | Phase 2 | Complete |
 | TEST-04 | Phase 1 | Complete |
-| TEST-05 | Phase 4 | Pending |
+| TEST-05 | Phase 4 | Complete |
 | TEST-06 | Phase 1 | Complete |
 | TEST-07 | Phase 1 | Complete |
 | TEST-08 | Phase 2 | Complete |
