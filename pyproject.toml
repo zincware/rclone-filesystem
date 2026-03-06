@@ -28,6 +28,9 @@ dev = [
     "s3fs>=2025.5.1",
 ]
 
+[project.entry-points."fsspec.specs"]
+rclone = "rclone_filesystem:RCloneFileSystem"
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"

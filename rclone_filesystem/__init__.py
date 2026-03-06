@@ -4,6 +4,7 @@ import tempfile
 from pathlib import Path
 
 from fsspec import AbstractFileSystem
+from fsspec.utils import stringify_path
 from rclone_python import rclone
 from rclone_python.utils import RcloneException
 
@@ -11,11 +12,45 @@ from rclone_python.utils import RcloneException
 class RCloneFileSystem(AbstractFileSystem):
     """Rclone filesystem"""
 
+    protocol = "rclone"
+    root_marker = ""
+
     _INVALID_PATH_CHARS = frozenset(";|$`&(){}<>\\\n\r")
 
     def __init__(self, remote: str):
         super().__init__(remote=remote)
         self._remote = remote
+
+    @classmethod
+    def _strip_protocol(cls, path):
+        """Strip the rclone:// protocol prefix from a path."""
+        if isinstance(path, list):
+            return [cls._strip_protocol(p) for p in path]
+        path = stringify_path(path)
+        if path.startswith("rclone://"):
+            path = path[len("rclone://"):]
+            if ":" in path:
+                path = path.split(":", 1)[1]
+            elif "/" in path:
+                path = path.split("/", 1)[1]
+            else:
+                return cls.root_marker
+        path = path.rstrip("/")
+        return path or cls.root_marker
+
+    @staticmethod
+    def _get_kwargs_from_urls(path):
+        """Extract constructor kwargs from a URL."""
+        if not path.startswith("rclone://"):
+            return {}
+        rest = path[len("rclone://"):]
+        if ":" in rest:
+            remote = rest.split(":", 1)[0]
+        elif "/" in rest:
+            remote = rest.split("/", 1)[0]
+        else:
+            remote = rest
+        return {"remote": remote}
 
     @staticmethod
     def _validate_path(path: str) -> None:
