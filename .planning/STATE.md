@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v0.2
 milestone_name: milestone
 status: executing
-stopped_at: Phase 2 context gathered
-last_updated: "2026-03-06T10:33:28.295Z"
-last_activity: 2026-03-06 -- Completed 01-02 (Protocol Registration)
+stopped_at: Completed 02-01-PLAN.md
+last_updated: "2026-03-06T10:54:42Z"
+last_activity: 2026-03-06 -- Completed 02-01 (RCloneFile wrapper and _open() contract)
 progress:
   total_phases: 5
   completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
-  percent: 100
+  total_plans: 5
+  completed_plans: 4
+  percent: 80
 ---
 
 # Project State
@@ -21,23 +21,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-06)
 
 **Core value:** Any rclone-supported remote is usable as a first-class fsspec filesystem
-**Current focus:** Phase 1: Path Infrastructure and Protocol Registration
+**Current focus:** Phase 2: File I/O Contract Fix
 
 ## Current Position
 
-Phase: 1 of 5 (Path Infrastructure and Protocol Registration)
-Plan: 3 of 3 in current phase
+Phase: 2 of 5 (File I/O Contract Fix)
+Plan: 1 of 2 in current phase
 Status: Executing
-Last activity: 2026-03-06 -- Completed 01-02 (Protocol Registration)
+Last activity: 2026-03-06 -- Completed 02-01 (RCloneFile wrapper and _open() contract)
 
-Progress: [██████████] 100%
+Progress: [████████░░] 80%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
+- Total plans completed: 4
 - Average duration: 2min
-- Total execution time: 0.1 hours
+- Total execution time: 0.13 hours
 
 **By Phase:**
 
@@ -53,6 +53,7 @@ Progress: [██████████] 100%
 | Phase 01 P01 | 2min | 2 tasks | 3 files |
 | Phase 01 P02 | 3min | 1 tasks | 3 files |
 | Phase 01 P03 | 1min | 1 tasks | 1 files |
+| Phase 02 P01 | 2min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -67,6 +68,9 @@ Recent decisions affecting current work:
 - [Phase 01-01]: _validate_path is @staticmethod for testability
 - [Phase 01-02]: _strip_protocol handles both colon and slash separators for rclone URL forms
 - [Phase 01-02]: _get_kwargs_from_urls returns empty dict for non-rclone URLs
+- [Phase 02-01]: RCloneFile extends io.IOBase with temp file delegation for read/write
+- [Phase 02-01]: Write uses rclone.copyto() for file-to-file semantics
+- [Phase 02-01]: Eager download on _open() -- FileNotFoundError at open time, not during read()
 
 ### Pending Todos
 
@@ -79,6 +83,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-06T10:33:28.292Z
-Stopped at: Phase 2 context gathered
-Resume file: .planning/phases/02-file-io-contract-fix/02-CONTEXT.md
+Last session: 2026-03-06T10:54:42Z
+Stopped at: Completed 02-01-PLAN.md
+Resume file: .planning/phases/02-file-io-contract-fix/02-01-SUMMARY.md

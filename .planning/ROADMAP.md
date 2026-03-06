@@ -49,7 +49,7 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 02-01-PLAN.md -- RCloneFile wrapper class, _open() implementation, contract tests
+- [x] 02-01-PLAN.md -- RCloneFile wrapper class, _open() implementation, contract tests
 - [ ] 02-02-PLAN.md -- Text mode tests, write edge case tests
 
 ### Phase 3: Listing, Metadata, and Caching
@@ -103,7 +103,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Path Infrastructure and Protocol Registration | 3/3 | Complete   | 2026-03-06 |
-| 2. File I/O Contract Fix | 0/2 | Planning complete | - |
+| 2. File I/O Contract Fix | 1/2 | Executing | - |
 | 3. Listing, Metadata, and Caching | 0/? | Not started | - |
 | 4. Transfer Operations and Mutations | 0/? | Not started | - |
 | 5. Polish and Ecosystem Readiness | 0/? | Not started | - |

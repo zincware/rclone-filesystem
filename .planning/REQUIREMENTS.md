@@ -16,8 +16,8 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### Contract Compliance
 
-- [ ] **CONT-01**: Implement `_open()` returning a file-like object instead of overriding `open()` as context manager
-- [ ] **CONT-02**: User can open files in text mode (`r`/`w`) in addition to binary (`rb`/`wb`)
+- [x] **CONT-01**: Implement `_open()` returning a file-like object instead of overriding `open()` as context manager
+- [x] **CONT-02**: User can open files in text mode (`r`/`w`) in addition to binary (`rb`/`wb`)
 - [x] **CONT-03**: Set `protocol = "rclone"` class attribute on `RCloneFileSystem`
 - [x] **CONT-04**: Implement `_strip_protocol()` classmethod to parse `rclone://remote:path` URLs
 - [x] **CONT-05**: Implement `_get_kwargs_from_urls()` to extract `remote` kwarg from URLs
@@ -32,7 +32,7 @@ Requirements for this milestone. Each maps to roadmap phases.
 - [ ] **CORE-04**: Implement `mkdir()` using `rclone.mkdir()`
 - [ ] **CORE-05**: Implement `rmdir()` using `rclone.purge()`
 - [ ] **CORE-06**: Fix `cp_file()` to use `rclone.copyto()` instead of `rclone.copy()` for correct file-to-file semantics
-- [ ] **CORE-07**: Fix `open()` write mode to use `rclone.copyto()` instead of `Path().parent` path manipulation
+- [x] **CORE-07**: Fix `open()` write mode to use `rclone.copyto()` instead of `Path().parent` path manipulation
 - [ ] **CORE-08**: Implement `invalidate_cache()` and wire DirCache into `ls()` using fsspec's built-in `self.dircache`
 - [ ] **CORE-09**: Call `invalidate_cache()` after all mutation operations (put, rm, cp, mkdir, rmdir)
 
@@ -100,8 +100,8 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | INFRA-02 | Phase 1 | Complete |
 | INFRA-03 | Phase 1 | Complete |
 | INFRA-04 | Phase 1 | Complete |
-| CONT-01 | Phase 2 | Pending |
-| CONT-02 | Phase 2 | Pending |
+| CONT-01 | Phase 2 | Complete |
+| CONT-02 | Phase 2 | Complete |
 | CONT-03 | Phase 1 | Complete |
 | CONT-04 | Phase 1 | Complete |
 | CONT-05 | Phase 1 | Complete |
@@ -113,7 +113,7 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | CORE-04 | Phase 4 | Pending |
 | CORE-05 | Phase 4 | Pending |
 | CORE-06 | Phase 4 | Pending |
-| CORE-07 | Phase 2 | Pending |
+| CORE-07 | Phase 2 | Complete |
 | CORE-08 | Phase 3 | Pending |
 | CORE-09 | Phase 4 | Pending |
 | PERF-01 | Phase 3 | Pending |
