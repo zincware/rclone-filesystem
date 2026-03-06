@@ -19,6 +19,9 @@ Repository = "https://github.com/zincware/rclone-filesystem"
 Releases = "https://github.com/zincware/rclone-filesystem/releases"
 Discord = "https://discord.gg/7ncfwhsnm4"
 
+[project.optional-dependencies]
+rclone = ["rclone-bin"]
+
 [dependency-groups]
 dev = [
     "flask>=3.1.1",
@@ -26,6 +29,7 @@ dev = [
     "moto>=5.1.5",
     "pytest>=8.4.0",
     "pytest-cov>=6.2.1",
+    "rclone-bin",
     "s3fs>=2025.5.1",
 ]
 

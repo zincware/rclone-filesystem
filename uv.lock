@@ -1048,6 +1048,17 @@ wheels = [
 ]
 
 [[package]]
+name = "rclone-bin"
+version = "1.73.1"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/53/1a/5f3d719da508b0cd07d71e177867d1fe573e43a5f11bc413b19e21782cf1/rclone_bin-1.73.1-py3-none-macosx_10_9_x86_64.whl", hash = "sha256:da8aa6be72916b9b524fa7170ca9f1cd5b495bcc277ebdf950f1e8c4e609fa62", size = 29250556, upload-time = "2026-02-23T04:22:35.505Z" },
+    { url = "https://files.pythonhosted.org/packages/1c/03/4e5f9bccf18082c9b5da411e1617a7904a4cab67c8f749a86343f250b8cf/rclone_bin-1.73.1-py3-none-macosx_11_0_arm64.whl", hash = "sha256:3f4f1ac7ce7a51f7f7e0e45b552f8a92c778aaa8d0e82b29e12e2b5e875c1418", size = 27057659, upload-time = "2026-02-23T04:22:37.977Z" },
+    { url = "https://files.pythonhosted.org/packages/01/b6/b2634dd60371c039bc274d9a9a109559d8ede560ad0665de9db671d1aae3/rclone_bin-1.73.1-py3-none-manylinux2014_aarch64.musllinux_1_1_aarch64.whl", hash = "sha256:572daa5dba51803fe39fcdb124e3c07ed07a36fe38162e906074fc8aae10268a", size = 24230080, upload-time = "2026-02-23T04:22:41.106Z" },
+    { url = "https://files.pythonhosted.org/packages/85/2f/63f31eafbb96a17ee402882bf2c440be7867ee5cacf6e2de23503a5ebab4/rclone_bin-1.73.1-py3-none-manylinux2014_x86_64.musllinux_1_1_x86_64.whl", hash = "sha256:8c401b3b1dac4b80f9f5261ed43f503f8bfb63ceb28fd027e1d5dcdbddc4b4af", size = 26006575, upload-time = "2026-02-23T04:22:43.514Z" },
+]
+
+[[package]]
 name = "rclone-filesystem"
 version = "0.1.0"
 source = { editable = "." }
@@ -1057,6 +1068,11 @@ dependencies = [
     { name = "rclone-python" },
 ]
 
+[package.optional-dependencies]
+rclone = [
+    { name = "rclone-bin" },
+]
+
 [package.dev-dependencies]
 dev = [
     { name = "flask" },
@@ -1064,6 +1080,7 @@ dev = [
     { name = "moto" },
     { name = "pytest" },
     { name = "pytest-cov" },
+    { name = "rclone-bin" },
     { name = "s3fs" },
 ]
 
@@ -1071,8 +1088,10 @@ dev = [
 requires-dist = [
     { name = "fsspec", specifier = ">=2025.5.1" },
     { name = "pydantic-settings", specifier = ">=2.13.1" },
+    { name = "rclone-bin", marker = "extra == 'rclone'" },
     { name = "rclone-python", specifier = ">=0.1.24" },
 ]
+provides-extras = ["rclone"]
 
 [package.metadata.requires-dev]
 dev = [
@@ -1081,6 +1100,7 @@ dev = [
     { name = "moto", specifier = ">=5.1.5" },
     { name = "pytest", specifier = ">=8.4.0" },
     { name = "pytest-cov", specifier = ">=6.2.1" },
+    { name = "rclone-bin" },
     { name = "s3fs", specifier = ">=2025.5.1" },
 ]
 
