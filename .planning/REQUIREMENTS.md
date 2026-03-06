@@ -33,13 +33,13 @@ Requirements for this milestone. Each maps to roadmap phases.
 - [ ] **CORE-05**: Implement `rmdir()` using `rclone.purge()`
 - [ ] **CORE-06**: Fix `cp_file()` to use `rclone.copyto()` instead of `rclone.copy()` for correct file-to-file semantics
 - [x] **CORE-07**: Fix `open()` write mode to use `rclone.copyto()` instead of `Path().parent` path manipulation
-- [ ] **CORE-08**: Implement `invalidate_cache()` and wire DirCache into `ls()` using fsspec's built-in `self.dircache`
+- [x] **CORE-08**: Implement `invalidate_cache()` and wire DirCache into `ls()` using fsspec's built-in `self.dircache`
 - [ ] **CORE-09**: Call `invalidate_cache()` after all mutation operations (put, rm, cp, mkdir, rmdir)
 
 ### Performance
 
-- [ ] **PERF-01**: Implement `cat_file()` using `rclone.cat()` for direct content retrieval without temp files
-- [ ] **PERF-02**: Enable fsspec's `use_listings_cache` for repeated ls/info calls
+- [x] **PERF-01**: Implement `cat_file()` using `rclone.cat()` for direct content retrieval without temp files
+- [x] **PERF-02**: Enable fsspec's `use_listings_cache` for repeated ls/info calls
 - [ ] **PERF-03**: Add rich progress bar support to transfer operations (`_put_file`, `_get_file`) via rclone-python's `pbar=` parameter
 
 ### Testing
@@ -114,10 +114,10 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | CORE-05 | Phase 4 | Pending |
 | CORE-06 | Phase 4 | Pending |
 | CORE-07 | Phase 2 | Complete |
-| CORE-08 | Phase 3 | Pending |
+| CORE-08 | Phase 3 | Complete |
 | CORE-09 | Phase 4 | Pending |
-| PERF-01 | Phase 3 | Pending |
-| PERF-02 | Phase 3 | Pending |
+| PERF-01 | Phase 3 | Complete |
+| PERF-02 | Phase 3 | Complete |
 | PERF-03 | Phase 5 | Pending |
 | TEST-01 | Phase 4 | Pending |
 | TEST-02 | Phase 3 | Pending |

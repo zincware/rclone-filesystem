@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v0.2
 milestone_name: milestone
-status: completed
-stopped_at: Phase 3 context gathered
-last_updated: "2026-03-06T11:32:26.387Z"
-last_activity: 2026-03-06 -- Completed 02-02 (Text mode and write edge case tests)
+status: in_progress
+stopped_at: Completed 03-01-PLAN.md
+last_updated: "2026-03-06T11:55:30.837Z"
+last_activity: 2026-03-06 -- Completed 03-01 (Infrastructure for caching)
 progress:
   total_phases: 5
   completed_phases: 2
-  total_plans: 5
-  completed_plans: 5
-  percent: 100
+  total_plans: 7
+  completed_plans: 6
+  percent: 86
 ---
 
 # Project State
@@ -21,21 +21,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-06)
 
 **Core value:** Any rclone-supported remote is usable as a first-class fsspec filesystem
-**Current focus:** Phase 2: File I/O Contract Fix
+**Current focus:** Phase 3: Listing & Metadata Caching
 
 ## Current Position
 
-Phase: 2 of 5 (File I/O Contract Fix) -- COMPLETE
-Plan: 2 of 2 in current phase
-Status: Phase 02 Complete
-Last activity: 2026-03-06 -- Completed 02-02 (Text mode and write edge case tests)
+Phase: 3 of 5 (Listing & Metadata Caching)
+Plan: 1 of 2 in current phase (Plan 01 complete)
+Status: Phase 03 in progress
+Last activity: 2026-03-06 -- Completed 03-01 (Infrastructure for caching)
 
-Progress: [██████████] 100%
+Progress: [█████████░] 86%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
+- Total plans completed: 6
 - Average duration: 2min
 - Total execution time: 0.13 hours
 
@@ -55,6 +55,7 @@ Progress: [██████████] 100%
 | Phase 01 P03 | 1min | 1 tasks | 1 files |
 | Phase 02 P01 | 2min | 2 tasks | 3 files |
 | Phase 02 P02 | 2min | 2 tasks | 2 files |
+| Phase 03 P01 | 3min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -72,6 +73,9 @@ Recent decisions affecting current work:
 - [Phase 02-01]: RCloneFile extends io.IOBase with temp file delegation for read/write
 - [Phase 02-01]: Write uses rclone.copyto() for file-to-file semantics
 - [Phase 02-01]: Eager download on _open() -- FileNotFoundError at open time, not during read()
+- [Phase 03-01]: Constructor kwargs override env vars override defaults (3-tier config priority)
+- [Phase 03-01]: Use run_rclone_cmd(encoding=None) for binary-safe cat_file (not rclone.cat())
+- [Phase 03-01]: Detect FNFE via empty stdout + stderr presence for rclone cat
 
 ### Pending Todos
 
@@ -84,6 +88,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-06T11:32:26.385Z
-Stopped at: Phase 3 context gathered
-Resume file: .planning/phases/03-listing-metadata-caching/03-CONTEXT.md
+Last session: 2026-03-06T11:54:54Z
+Stopped at: Completed 03-01-PLAN.md
+Resume file: .planning/phases/03-listing-metadata-caching/03-01-SUMMARY.md
